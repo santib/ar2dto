@@ -4,7 +4,7 @@ require_relative "lib/ar2dto/version"
 
 Gem::Specification.new do |spec|
   spec.name = "ar2dto"
-  spec.version = Ar2dto::VERSION
+  spec.version = AR2DTO::VERSION
   spec.authors = ["Santiago Bartesaghi"]
   spec.email = ["santib@hey.com"]
 

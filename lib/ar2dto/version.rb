@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-module Ar2dto
+module AR2DTO
   VERSION = "0.1.0"
 end
