@@ -6,19 +6,43 @@ AR2DTO (ActiveRecord to DTO, pronounced R2-D2 or Artoo-Detoo) is a gem that lets
 
 ## Table of Contents
 
+- [Motivation](#motivation)
+  - [Why AR2DTO?](#why-ar2dto)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Setting up your models](#setting-up-your-models)
+- [Development](#development)
+- [Contributing](#contributing)
+- [License](#license)
+- [Code of Conduct](#code-of-conduct)
+
+## Motivation
+TBD
+
+### Why AR2DTO?
+TBD
+
 ## Installation
 
-Install the gem and add to the application's Gemfile by executing:
+Add this line to your application's Gemfile:
 
-    $ bundle add ar2dto
+```ruby
+gem 'ar2dto'
+```
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+And then execute:
+
+    $ bundle install
+
+Or install it yourself as:
 
     $ gem install ar2dto
 
 ## Usage
+TBD
 
-TODO: Write usage instructions here
+### Setting up your models
+TBD
 
 ## Development
 
@@ -28,7 +52,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/ar2dto. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/ar2dto/blob/main/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/santib/ar2dto. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/santib/ar2dto/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 
@@ -36,4 +60,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the Ar2dto project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/ar2dto/blob/main/CODE_OF_CONDUCT.md).
+Everyone interacting in the AR2DTO project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/santib/ar2dto/blob/main/CODE_OF_CONDUCT.md).
