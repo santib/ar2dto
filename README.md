@@ -1,8 +1,10 @@
-# Ar2dto
+# AR2DTO ![AR2DTO](docs/images/logo.png)
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/ar2dto`. To experiment with that code, run `bin/console` for an interactive prompt.
+AR2DTO (ActiveRecord to DTO, pronounced R2-D2 or Artoo-Detoo) is a gem that lets you create DTOs (data transfer objects) from your ActiveRecord models. It is a simple and small gem with the goal of encouraging the usage of simpler objects across an app rather than ActiveRecord models, to help with coupling issues in large Rails apps.
 
-TODO: Delete this and the text above, and describe your gem
+![CI](https://github.com/santib/ar2dto/workflows/CI/badge.svg)
+
+## Table of Contents
 
 ## Installation
 
