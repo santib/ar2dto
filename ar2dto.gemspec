@@ -32,7 +32,14 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   # Uncomment to register a new dependency of your gem
-  # spec.add_dependency "example-gem", "~> 1.0"
+  spec.add_dependency 'activerecord', '>= 5.2'
+
+  spec.add_development_dependency 'database_cleaner-active_record', '~> 1.8.0'
+  spec.add_development_dependency 'rake', '~> 13.0.1'
+  spec.add_development_dependency 'rspec', '~> 3.9.0'
+  spec.add_development_dependency 'rubocop', '~> 0.80.0'
+  spec.add_development_dependency 'sqlite3', '~> 1.4.2'
+
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
