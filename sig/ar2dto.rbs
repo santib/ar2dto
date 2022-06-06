@@ -1,4 +1,4 @@
-module Ar2dto
+module AR2DTO
   VERSION: String
   # See the writing guide of rbs: https://github.com/ruby/rbs#guides
 end
