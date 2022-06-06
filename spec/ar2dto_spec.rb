@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.describe Ar2dto do
+RSpec.describe AR2DTO do
   it "has a version number" do
-    expect(Ar2dto::VERSION).not_to be nil
+    expect(AR2DTO::VERSION).not_to be nil
   end
 
   it "does something useful" do

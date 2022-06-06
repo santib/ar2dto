@@ -2,7 +2,7 @@
 
 require_relative "ar2dto/version"
 
-module Ar2dto
+module AR2DTO
   class Error < StandardError; end
   # Your code goes here...
 end
