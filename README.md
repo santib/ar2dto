@@ -1,6 +1,6 @@
 # AR2DTO ![AR2DTO](docs/images/logo.png)
 
-AR2DTO (ActiveRecord to DTO, pronounced R2-D2 or Artoo-Detoo) is a gem that lets you create DTOs (data transfer objects) from your ActiveRecord models. It is a simple and small gem with the goal of encouraging the usage of simpler objects across an app rather than ActiveRecord models, to help with coupling issues in large Rails apps.
+AR2DTO (ActiveRecord to DTO, pronounced R2-D2 or Artoo-Detoo) is a gem that lets you create [DTOs](https://martinfowler.com/eaaCatalog/dataTransferObject.html) (data transfer objects) from your ActiveRecord models. It is a simple and small gem with the goal of encouraging the usage of simpler objects across an app rather than ActiveRecord models, to help with coupling issues in large Rails apps.
 
 ![CI](https://github.com/santib/ar2dto/workflows/CI/badge.svg)
 
