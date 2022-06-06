@@ -4,24 +4,38 @@ on:
   push:
     branches:
       - main
-
   pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Ruby ${{ matrix.ruby }}
     strategy:
       matrix:
-        ruby:
-          - '3.1.2'
-
+        gemfile: [rails_5_2.gemfile, rails_6_0.gemfile, rails_6_1.gemfile, rails_7_0.gemfile, rails_main.gemfile]
+        ruby_version: [2.5, 2.6, 2.7, 3.0.4, 3.1]
+        exclude:
+          - gemfile: rails_main.gemfile
+            ruby_version: 2.5
+          - gemfile: rails_main.gemfile
+            ruby_version: 2.6
+          - gemfile: rails_7_0.gemfile
+            ruby_version: 2.5
+          - gemfile: rails_7_0.gemfile
+            ruby_version: 2.6
+          - gemfile: rails_5_2.gemfile
+            ruby_version: 3.1
+          - gemfile: rails_5_2.gemfile
+            ruby_version: 3.0.4
+    env:
+      BUNDLE_GEMFILE: spec/gemfiles/${{ matrix.gemfile }}
     steps:
     - uses: actions/checkout@v3
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: ${{ matrix.ruby }}
+        ruby-version: ${{ matrix.ruby_version }}
         bundler-cache: true
-    - name: Run the default task
-      run: bundle exec rake
+    - name: Run test
+      run: |
+        bundle exec rubocop
+        bundle exec rspec
