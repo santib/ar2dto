@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 require_relative "./spec_helper"
-require_relative "../lib/ar2dto/base"
+require_relative "../lib/ar2dto"
 
-RSpec.describe AR2DTO::Base do
+RSpec.describe ".has_dto" do
   class User < ActiveRecord::Base
-    include AR2DTO::Base
+    has_dto
   end
 
   it "creates a new DTO class" do

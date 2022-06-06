@@ -3,10 +3,24 @@ AllCops:
   NewCops: enable
   SuggestExtensions: false
 
+Lint/ConstantDefinitionInBlock:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 120
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+
 Metrics/MethodLength:
   Enabled: true
   Exclude:
    - lib/ar2dto/base.rb
+
+Naming/PredicateName:
+  Exclude:
+    - lib/ar2dto/has_dto.rb
 
 Style/Documentation:
   Enabled: false
@@ -18,13 +32,3 @@ Style/StringLiterals:
 Style/StringLiteralsInInterpolation:
   Enabled: true
   EnforcedStyle: double_quotes
-
-Lint/ConstantDefinitionInBlock:
-  Enabled: false
-
-Metrics/BlockLength:
-  Exclude:
-    - spec/**/*
-
-Layout/LineLength:
-  Max: 120
