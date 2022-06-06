@@ -24,5 +24,9 @@ Style/StringLiteralsInInterpolation:
 Lint/ConstantDefinitionInBlock:
   Enabled: false
 
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+
 Layout/LineLength:
   Max: 120
