@@ -1,5 +1,13 @@
 AllCops:
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 2.5.0
+
+Metrics/MethodLength:
+  Enabled: true
+  Exclude:
+   - lib/ar2dto/base.rb
+
+Style/Documentation:
+  Enabled: false
 
 Style/StringLiterals:
   Enabled: true
@@ -8,6 +16,13 @@ Style/StringLiterals:
 Style/StringLiteralsInInterpolation:
   Enabled: true
   EnforcedStyle: double_quotes
+
+Style/StringLiteralsInInterpolation:
+  Enabled: true
+  EnforcedStyle: double_quotes
+
+Lint/ConstantDefinitionInBlock:
+  Enabled: false
 
 Layout/LineLength:
   Max: 120
