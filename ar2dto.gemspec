@@ -5,8 +5,8 @@ require_relative "lib/ar2dto/version"
 Gem::Specification.new do |spec|
   spec.name = "ar2dto"
   spec.version = AR2DTO::VERSION
-  spec.authors = ["Santiago Bartesaghi"]
-  spec.email = ["santib@hey.com"]
+  spec.authors = ["Santiago Bartesaghi", "Martín Jaime Morón"]
+  spec.email = ["santib@hey.com", "martinmoron7@gmail.com"]
 
   spec.summary = "Easing the creation of DTOs from your ActiveRecord models."
   spec.homepage = "https://github.com/santib/ar2dto"
