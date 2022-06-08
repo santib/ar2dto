@@ -11,16 +11,23 @@ AR2DTO (ActiveRecord to DTO, pronounced R2-D2 or Artoo-Detoo) is a gem that lets
 - [Installation](#installation)
 - [Usage](#usage)
   - [Setting up your models](#setting-up-your-models)
+  - [#to_dto](#to_dto)
+  - [.to_dto](#to_dto-1)
 - [Development](#development)
 - [Contributing](#contributing)
 - [License](#license)
 - [Code of Conduct](#code-of-conduct)
 
 ## Motivation
-TBD
+
+ActiveRecord is a very powerful tool and usually it is extensively used in Rails apps. When working on large Rails apps, having such powerful objects all over the place can impact maintainability negatively. This is even more clear when trying to create domain boundaries within a Rails monolith, when there is communication between different components you probably won't want to share an ActiveRecord model with other componenets, if you do that, you'll be giving direct access to your component's tables from anywhere. For that reason, we want to create POROs that look like an ActiveRecord model but that are much simpler and only carry data. This could be done by hand, but with this gem we are trying to help you avoid having to write all the boilerplate to create these objects. As a corollary, by using this gem you are standardizing how things are done, what is allowed and what is not allowed.
 
 ### Why AR2DTO?
-TBD
+
+- It is a very small gem focused on solving one specific problem.
+- It helps you reduce boilerplate.
+- It provides a standard way to work with data-only objects.
+- It lets you work with objects that are similar to ActiveRecord models but without DB access or business logic.
 
 ## Installation
 
@@ -39,10 +46,42 @@ Or install it yourself as:
     $ gem install ar2dto
 
 ## Usage
-TBD
+
+In the following sections we explain some basic usage and the API provided by the gem.
 
 ### Setting up your models
-TBD
+
+In order to use the gem you need to add `has_dto` to your ActiveRecord models. For example:
+```ruby
+class User < ApplicationRecord
+  has_dto
+end
+```
+
+This will dynamically create a class called `UserDTO`, and will add two methods to your ActiveRecord model: `#to_dto` and `.to_dto`.
+
+### #to_dto
+
+When calling `#to_dto` on an ActiveRecord model, a DTO object will be initialized with the model attributes. As an example:
+
+```ruby
+user = User.create!(name: 'John', email: 'john@example.com')
+user_dto = user.to_dto
+```
+
+`user_dto` will be an instance of `UserDTO` and, by default, it will be initialized will the same attributes as the model, that is: `id`, `name`, `email`, `created_at`, and `updated_at`.
+
+You can then use `user_dto` across your app, and even share it with other components, without having to worry about others making queries, modifying data, or even running business logic, where they shouldn't.
+
+### .to_dto
+
+This method is similar to `#to_dto` but meant for `ActiveRecord::Relation`. So that running:
+
+```ruby
+User.last(10).to_dto
+```
+
+will return an `Array` consisting of 10 `UserDTO`. With this you are forcing the executing of the query, having collections simple data-objects, and avoiding other parts of the app from modifying the query.
 
 ## Development
 
