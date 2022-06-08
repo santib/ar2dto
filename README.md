@@ -1,6 +1,6 @@
 # AR2DTO ![AR2DTO](docs/images/logo.png)
 
-AR2DTO (ActiveRecord to DTO, pronounced R2-D2 or Artoo-Detoo) is a gem that lets you create [DTOs](https://martinfowler.com/eaaCatalog/dataTransferObject.html) (data transfer objects) from your ActiveRecord models. It is a simple and small gem with the goal of encouraging the usage of simpler objects across an app rather than ActiveRecord models, to help with coupling issues in large Rails apps.
+AR2DTO (ActiveRecord to DTO, pronounced R2-D2 or Artoo-Detoo) is a gem that lets you create [DTOs](https://martinfowler.com/eaaCatalog/dataTransferObject.html) (data transfer objects) from your ActiveRecord models. It is a simple and small gem to encourage the usage of simpler objects across an app rather than ActiveRecord models, to help with coupling issues in large Rails apps.
 
 ![CI](https://github.com/santib/ar2dto/workflows/CI/badge.svg)
 
@@ -11,6 +11,7 @@ AR2DTO (ActiveRecord to DTO, pronounced R2-D2 or Artoo-Detoo) is a gem that lets
 - [Installation](#installation)
 - [Usage](#usage)
   - [Setting up your models](#setting-up-your-models)
+  - [DTO class](#dto-class)
   - [#to_dto](#to_dto)
   - [.to_dto](#to_dto-1)
 - [Development](#development)
@@ -20,7 +21,7 @@ AR2DTO (ActiveRecord to DTO, pronounced R2-D2 or Artoo-Detoo) is a gem that lets
 
 ## Motivation
 
-ActiveRecord is a very powerful tool and usually it is extensively used in Rails apps. When working on large Rails apps, having such powerful objects all over the place can impact maintainability negatively. This is even more clear when trying to create domain boundaries within a Rails monolith, when there is communication between different components you probably won't want to share an ActiveRecord model with other componenets, if you do that, you'll be giving direct access to your component's tables from anywhere. For that reason, we want to create POROs that look like an ActiveRecord model but that are much simpler and only carry data. This could be done by hand, but with this gem we are trying to help you avoid having to write all the boilerplate to create these objects. As a corollary, by using this gem you are standardizing how things are done, what is allowed and what is not allowed.
+ActiveRecord is a very powerful tool and extensively used in most Rails apps. When working on large Rails apps, having such powerful objects all over the place can have a negative impact on the maintainability of the app. This is even more clear when trying to create domain boundaries within a Rails monolith. When there is communication between different components you probably don't want to share an ActiveRecord model with other components, if you do that, you'll be giving direct access to your component's tables from anywhere. For that reason, we want to create POROs that look like ActiveRecord models but that are much simpler and only carry data. This could be done by hand, but with this gem, we are trying to help you avoid having to write all the boilerplate to create these objects. As a corollary, by using this gem you are standardizing how things are done, and how your data-only objects look like.
 
 ### Why AR2DTO?
 
@@ -28,6 +29,7 @@ ActiveRecord is a very powerful tool and usually it is extensively used in Rails
 - It helps you reduce boilerplate.
 - It provides a standard way to work with data-only objects.
 - It lets you work with objects that are similar to ActiveRecord models but without DB access or business logic.
+- It impedes ActiveRecord models leaking through its methods.
 
 ## Installation
 
@@ -47,18 +49,34 @@ Or install it yourself as:
 
 ## Usage
 
-In the following sections we explain some basic usage and the API provided by the gem.
+In the following sections, we explain the API provided by the gem and some basic usage.
 
 ### Setting up your models
 
-In order to use the gem you need to add `has_dto` to your ActiveRecord models. For example:
+To use the gem, you need to add `has_dto` to your ActiveRecord models. For example:
 ```ruby
 class User < ApplicationRecord
   has_dto
 end
 ```
 
-This will dynamically create a class called `UserDTO`, and will add two methods to your ActiveRecord model: `#to_dto` and `.to_dto`.
+This will dynamically create a class called `UserDTO` and will add two methods to your ActiveRecord model: `#to_dto` and `.to_dto`.
+
+### DTO class
+
+This class is dynamically created based on your models that declare `has_dto`. The goal of these classes is to be data-only. They don't have access to the DB, business logic, or calculate things on the fly. They just store the data and provide them in a read-only fashion through plain simple methods.
+
+In addition to that, and optionally, you can have these objects be compliant with the [ActiveModel API](https://github.com/rails/rails/blob/main/activemodel/lib/active_model/lint.rb) you can do that by configuring it globally with:
+
+```ruby
+# config/initializers/ar2dto.rb
+
+AR2DTO.setup do |config|
+  config.active_model_compliance = true
+end
+```
+
+With this, it'll be even easier to interchange in your project ActiveRecord models for DTOs, because other parts of Rails and other gems will continue to work (e.g. Rails route helpers).
 
 ### #to_dto
 
@@ -69,7 +87,7 @@ user = User.create!(name: 'John', email: 'john@example.com')
 user_dto = user.to_dto
 ```
 
-`user_dto` will be an instance of `UserDTO` and, by default, it will be initialized will the same attributes as the model, that is: `id`, `name`, `email`, `created_at`, and `updated_at`.
+`user_dto` will be an instance of `UserDTO` and, by default, it will be initialized with the same attributes as the model, that is: `id`, `name`, `email`, `created_at`, and `updated_at`.
 
 You can then use `user_dto` across your app, and even share it with other components, without having to worry about others making queries, modifying data, or even running business logic, where they shouldn't.
 
@@ -81,7 +99,7 @@ This method is similar to `#to_dto` but meant for `ActiveRecord::Relation`. So t
 User.last(10).to_dto
 ```
 
-will return an `Array` consisting of 10 `UserDTO`. With this you are forcing the executing of the query, having collections simple data-objects, and avoiding other parts of the app from modifying the query.
+will return an `Array` consisting of 10 `UserDTO`. With this you are forcing the executing of the query, having collections of simple data objects, and avoiding other parts of the app from modifying the query.
 
 ## Development
 
