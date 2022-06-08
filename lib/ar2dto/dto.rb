@@ -11,16 +11,10 @@ module AR2DTO
     end
 
     include ::ActiveModel::Model
-    attr_reader :attributes
-
-    def initialize(attributes)
-      @attributes = attributes
-      super
-    end
 
     def ==(other)
       if other.instance_of?(self.class)
-        attributes == other.attributes
+        as_json == other.as_json
       else
         super
       end
