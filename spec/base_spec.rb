@@ -98,5 +98,7 @@ RSpec.describe ".has_dto" do
         expect(subject).not_to eq(admin)
       end
     end
+
+    it_behaves_like "ActiveModel"
   end
 end

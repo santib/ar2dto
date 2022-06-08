@@ -7,8 +7,8 @@ require "database_cleaner/active_record"
 ActiveRecord::Base.establish_connection adapter: "sqlite3", database: ":memory:"
 
 require "ar2dto"
-
-load "#{File.dirname(__FILE__)}/support/schema.rb"
+require "support/schema"
+require "support/active_model"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
