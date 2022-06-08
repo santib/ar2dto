@@ -21,10 +21,8 @@ module AR2DTO
         namespace = model.name.deconstantize.presence&.constantize || Object
 
         namespace.const_set("#{model.name.split("::").last}DTO", Class.new do
-          include ::ActiveModel::Model
+          const_set("ATTR_NAMES", model.attribute_names)
           include AR2DTO::DTO
-          attr_reader :attributes
-          attr_accessor(*model.column_names)
         end)
 
         model.include Model::InstanceMethods

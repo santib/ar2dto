@@ -2,16 +2,24 @@
 
 module AR2DTO
   module DTO
-    def initialize(attributes)
-      @attributes = attributes
-      super
-    end
+    def self.included(base)
+      base.include ::ActiveModel::Model
+      base.class_eval do
+        attr_reader :attributes
+        attr_accessor(*base::ATTR_NAMES)
 
-    def ==(other)
-      if other.instance_of?(self.class)
-        attributes == other.attributes
-      else
-        super
+        def initialize(attributes)
+          @attributes = attributes
+          super
+        end
+
+        def ==(other)
+          if other.instance_of?(self.class)
+            attributes == other.attributes
+          else
+            super
+          end
+        end
       end
     end
   end
