@@ -9,8 +9,13 @@ Lint/ConstantDefinitionInBlock:
 Layout/LineLength:
   Max: 120
 
+Metrics/AbcSize:
+  Exclude:
+    - lib/ar2dto/dto.rb
+
 Metrics/BlockLength:
   Exclude:
+    - lib/ar2dto/dto.rb
     - spec/**/*
 
 Metrics/MethodLength:

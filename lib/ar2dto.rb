@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "active_record"
+require "active_model"
 require_relative "ar2dto/version"
 require_relative "ar2dto/has_dto"
 

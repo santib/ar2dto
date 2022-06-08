@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require "active_model/lint"
 require "minitest"
 
-RSpec.shared_examples_for 'ActiveModel' do
+RSpec.shared_examples_for "ActiveModel" do
   include ActiveModel::Lint::Tests
   include Minitest::Assertions
 
@@ -12,6 +14,6 @@ RSpec.shared_examples_for 'ActiveModel' do
   before(:each) { self.assertions = 0 }
 
   ActiveModel::Lint::Tests.public_instance_methods.map(&:to_s).grep(/^test/).each do |m|
-    it(m.sub 'test_', 'responds to ') { send m }
+    it(m.sub("test_", "responds to ")) { send m }
   end
 end

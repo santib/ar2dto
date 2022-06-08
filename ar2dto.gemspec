@@ -22,9 +22,9 @@ Gem::Specification.new do |spec|
   spec.files = Dir["LICENSE.txt", "README.md", "lib/**/*"]
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "activemodel", ">= 5.2"
   spec.add_dependency "activerecord", ">= 5.2"
 
-  spec.add_development_dependency "activemodel", ">= 5.2"
   spec.add_development_dependency "database_cleaner-active_record", "~> 1.8.0"
   spec.add_development_dependency "rake", "~> 13.0.1"
   spec.add_development_dependency "rspec", "~> 3.9.0"
