@@ -16,7 +16,7 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Enabled: true
   Exclude:
-   - lib/ar2dto/base.rb
+   - lib/ar2dto/dto.rb
 
 Naming/PredicateName:
   Exclude:
