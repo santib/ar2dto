@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative "./spec_helper"
-require_relative "../lib/ar2dto"
+require_relative "../spec_helper"
+require_relative "../../lib/ar2dto"
 
 RSpec.describe ".has_dto" do
   class User < ActiveRecord::Base

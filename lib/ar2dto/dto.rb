@@ -12,9 +12,7 @@ module AR2DTO
     end
 
     include ::ActiveModel::AttributeAssignment
-    include ::ActiveModel::Conversion
-    extend ::ActiveModel::Naming
-    extend ::ActiveModel::Translation
+    include AR2DTO::ActiveModel
 
     def initialize(attributes = {})
       assign_attributes(attributes) if attributes
@@ -28,22 +26,6 @@ module AR2DTO
       else
         super
       end
-    end
-
-    def persisted?
-      !!id
-    end
-
-    def errors
-      @errors ||= ::ActiveModel::Errors.new(self.class::ORIGINAL_MODEL)
-    end
-
-    def to_partial_path
-      self.class::ORIGINAL_MODEL._to_partial_path
-    end
-
-    def self.model_name
-      ActiveModel::Name.new(self::ORIGINAL_MODEL)
     end
   end
 end
