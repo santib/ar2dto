@@ -48,14 +48,5 @@ RSpec.describe ".has_dto" do
 
       expect(subject).not_to eq(other_user)
     end
-
-    it "exposes the attributes" do
-      expect(subject.attributes).to include(
-        attributes.stringify_keys.merge(
-          "id" => nil,
-          "updated_at" => nil
-        )
-      )
-    end
   end
 end
