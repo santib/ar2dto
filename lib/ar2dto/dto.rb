@@ -2,14 +2,16 @@
 
 module AR2DTO
   class DTO
-    include ::ActiveModel::Model
-    attr_reader :attributes
-
-    def self.[](original_model)
-      Class.new(self) do |_klass|
-        attr_accessor(*original_model.attribute_names)
+    class << self
+      def [](original_model)
+        Class.new(self) do |_klass|
+          attr_accessor(*original_model.attribute_names)
+        end
       end
     end
+
+    include ::ActiveModel::Model
+    attr_reader :attributes
 
     def initialize(attributes)
       @attributes = attributes
