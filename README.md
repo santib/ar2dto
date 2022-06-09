@@ -60,13 +60,13 @@ class User < ApplicationRecord
 end
 ```
 
-This will dynamically create a class called `UserDTO` and will add two methods to your ActiveRecord model: `#to_dto` and `.to_dto`.
+This will dynamically create a class called `UserDTO` and will add two methods to your ActiveRecord model: [#to_dto](#to_dto) and [.to_dto](#to_dto-1).
 
 ### DTO class
 
 This class is dynamically created based on your models that declare `has_dto`. The goal of these classes is to be data-only. They don't have access to the DB, business logic, or calculate things on the fly. They just store the data and provide them in a read-only fashion through plain simple methods.
 
-In addition to that, and optionally, you can have these objects be compliant with the [ActiveModel API](https://github.com/rails/rails/blob/main/activemodel/lib/active_model/lint.rb) you can do that by configuring it globally with:
+In addition to that, and optionally, you can have these objects be compliant with the [ActiveModel API](https://github.com/rails/rails/blob/main/activemodel/lib/active_model/lint.rb), you can do that by configuring it globally with:
 
 ```ruby
 # config/initializers/ar2dto.rb
@@ -76,7 +76,7 @@ AR2DTO.setup do |config|
 end
 ```
 
-With this, it'll be even easier to interchange in your project ActiveRecord models for DTOs, because other parts of Rails and other gems will continue to work (e.g. Rails route helpers).
+With this, it'll be even easier to interchange ActiveRecord models for DTOs, because other parts of Rails and other gems will continue to work (e.g. Rails route helpers).
 
 ### #to_dto
 
