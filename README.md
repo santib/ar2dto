@@ -25,11 +25,11 @@ ActiveRecord is a very powerful tool and extensively used in most Rails apps. Wh
 
 ### Why AR2DTO?
 
-- It is a very small gem focused on solving one specific problem.
-- It helps you reduce boilerplate.
-- It provides a standard way to work with data-only objects.
 - It lets you work with objects that are similar to ActiveRecord models but without DB access or business logic.
 - It impedes ActiveRecord models leaking through its methods.
+- It helps you reduce boilerplate.
+- It provides a standard way to work with data-only objects.
+- It is a very small gem focused on solving one specific problem.
 
 ## Installation
 
@@ -85,6 +85,7 @@ When calling `#to_dto` on an ActiveRecord model, a DTO object will be initialize
 ```ruby
 user = User.create!(name: 'John', email: 'john@example.com')
 user_dto = user.to_dto
+# #<UserDTO:0x00007fab8ce66a10 @name="John" @email="john@example.com">
 ```
 
 `user_dto` will be an instance of `UserDTO` and, by default, it will be initialized with the same attributes as the model, that is: `id`, `name`, `email`, `created_at`, and `updated_at`.
