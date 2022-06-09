@@ -1,25 +1,26 @@
 # frozen_string_literal: true
 
 module AR2DTO
-  module DTO
-    def self.included(base)
-      base.include ::ActiveModel::Model
-      base.class_eval do
-        attr_reader :attributes
-        attr_accessor(*base::ATTR_NAMES)
+  class DTO
+    include ::ActiveModel::Model
+    attr_reader :attributes
 
-        def initialize(attributes)
-          @attributes = attributes
-          super
-        end
+    def self.[](original_model)
+      Class.new(self) do |_klass|
+        attr_accessor(*original_model.attribute_names)
+      end
+    end
 
-        def ==(other)
-          if other.instance_of?(self.class)
-            attributes == other.attributes
-          else
-            super
-          end
-        end
+    def initialize(attributes)
+      @attributes = attributes
+      super
+    end
+
+    def ==(other)
+      if other.instance_of?(self.class)
+        attributes == other.attributes
+      else
+        super
       end
     end
   end
