@@ -10,6 +10,7 @@ AR2DTO (ActiveRecord to DTO, pronounced R2-D2 or Artoo-Detoo) is a gem that lets
   - [Why AR2DTO?](#why-ar2dto)
 - [Installation](#installation)
 - [Usage](#usage)
+  - [Global configuration](#global-configuration)
   - [Setting up your models](#setting-up-your-models)
   - [DTO class](#dto-class)
   - [#to_dto](#to_dto)
@@ -51,6 +52,35 @@ Or install it yourself as:
 
 In the following sections, we explain the API provided by the gem and some basic usage.
 
+Many aspects of AR2DTO are [configurable for individual models](#setting-up-your-models); typically this is achieved by passing options to the has_dto method within a given model. Some aspects of AR2DTO are [configured globally](#global-configuration) for all models.
+
+### Global Configuration
+Global configuration options affect all threads and models where has_dto has been defined. A common place to put these settings is in a Rails initializer file such as `config/initializers/ar2dto.rb`.
+These settings are assigned directly on the `AR2DTO.configure` object.
+
+Configuration options are:
+ - except
+
+Syntax examples:
+
+```ruby
+  # config/initializers/ar2dto.rb
+
+  AR2DTO.configure do |config|
+    config.except = [:updated_at]
+  end
+```
+
+OR
+
+```ruby
+  # config/initializers/ar2dto.rb
+
+  AR2DTO.configure.except = [:updated_at]
+```
+
+These options are intended to be set only once, during app initialization.
+
 ### Setting up your models
 
 To use the gem, you need to add `has_dto` to your ActiveRecord models. For example:
@@ -71,7 +101,7 @@ In addition to that, and optionally, you can have these objects be compliant wit
 ```ruby
 # config/initializers/ar2dto.rb
 
-AR2DTO.setup do |config|
+AR2DTO.configure do |config|
   config.active_model_compliance = true
 end
 ```

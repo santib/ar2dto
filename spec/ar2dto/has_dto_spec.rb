@@ -22,58 +22,56 @@ RSpec.describe ".has_dto" do
   end
 
   describe "#to_dto" do
-    context "when active record is in memory" do
-      let(:attributes) do
-        {
-          name: "Sandy",
-          email: "sandy@example.com",
-          birthday: Time.new(1995, 8, 25)
-        }
-      end
+    let(:attributes) do
+      {
+        name: "Sandy",
+        email: "sandy@example.com",
+        birthday: Time.new(1995, 8, 25)
+      }
+    end
 
-      subject { user.to_dto }
+    subject { user.to_dto }
 
-      let(:user) { User.new(attributes) }
+    let(:user) { User.new(attributes) }
 
-      it { is_expected.to be_a(UserDTO) }
+    it { is_expected.to be_a(UserDTO) }
 
-      it "doesn't expose ActiveRecord's methods" do
-        expect(subject).not_to respond_to(:update)
-      end
+    it "doesn't expose ActiveRecord's methods" do
+      expect(subject).not_to respond_to(:update)
+    end
 
-      it "exposes methods to access the columns" do
-        expect(subject).to have_attributes(attributes)
-      end
+    it "exposes methods to access the columns" do
+      expect(subject).to have_attributes(attributes)
+    end
 
-      it "exposes methods to access the columns set by persistance" do
-        expect(subject).to have_attributes(
-          id: nil,
-          created_at: nil,
-          updated_at: nil
-        )
-      end
+    it "exposes methods to access the columns set in the schema" do
+      expect(subject).to have_attributes(
+        id: nil,
+        created_at: nil,
+        updated_at: nil
+      )
+    end
 
-      it "is equal to another DTO of the same class with the same attributes that is in memory" do
-        user_with_same_attributes = User.new(attributes)
+    it "is equal to another DTO of the same class with the same attributes" do
+      user_with_same_attributes = User.new(attributes)
 
-        expect(subject).to eq(user_with_same_attributes.to_dto)
-      end
+      expect(subject).to eq(user_with_same_attributes.to_dto)
+    end
 
-      it "is not equal to another DTO of another class with same attributes" do
-        admin = double("Admin", attributes)
+    it "is not equal to another DTO of another class with same attributes" do
+      admin = double("Admin", attributes)
 
-        expect(subject).not_to eq(admin)
-      end
+      expect(subject).not_to eq(admin)
+    end
 
-      it "is not equal to another DTO of the same class with different attributes" do
-        other_user = User.new(attributes.merge(name: "Kent")).to_dto
+    it "is not equal to another DTO of the same class with different attributes" do
+      other_user = User.new(attributes.merge(name: "Kent")).to_dto
 
-        expect(subject).not_to eq(other_user)
-      end
+      expect(subject).not_to eq(other_user)
+    end
 
-      it "is not possible to set values from outside" do
-        expect { subject.name = "Martin" }.to raise_error(NoMethodError)
-      end
+    it "is not possible to set values from outside" do
+      expect { subject.name = "Arturito" }.to raise_error(NoMethodError)
     end
 
     context "when active record is persisted" do
@@ -85,15 +83,7 @@ RSpec.describe ".has_dto" do
         }
       end
 
-      subject { user.to_dto }
-
-      let(:user) { User.create(attributes) }
-
       it { is_expected.to be_a(UserDTO) }
-
-      it "doesn't expose ActiveRecord's methods" do
-        expect(subject).not_to respond_to(:update)
-      end
 
       it "exposes methods to access the columns" do
         expect(subject).to have_attributes(attributes)
@@ -106,17 +96,33 @@ RSpec.describe ".has_dto" do
           updated_at: user.updated_at
         )
       end
+    end
 
-      it "is not equal to another DTO of the same class with the same attributes that is persisted" do
-        user_with_same_attributes = User.create(attributes)
+    describe "with options" do
+      describe "option except" do
+        context "when it is configured globally" do
+          before do
+            # configure excluded attributes globally
+            AR2DTO.configure do |config|
+              config.except = [:updated_at]
+            end
+          end
 
-        expect(subject).not_to eq(user_with_same_attributes.to_dto)
-      end
+          it "doesn't expose the attribute" do
+            # create a new anonymous class that uses has_dto with the new config
+            klass = Class.new(ActiveRecord::Base) do
+              self.table_name = :users
 
-      it "is not equal to another DTO of another class with same attributes" do
-        admin = double("Admin", user.attributes)
+              def self.name
+                "Anonymous"
+              end
 
-        expect(subject).not_to eq(admin)
+              has_dto
+            end
+
+            expect(klass.new.to_dto).not_to respond_to(:updated_at)
+          end
+        end
       end
 
       it "is not possible to set values from outside" do

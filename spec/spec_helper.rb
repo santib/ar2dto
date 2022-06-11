@@ -15,6 +15,8 @@ require "support/fixtures/person"
 require "support/fixtures/shop/order"
 require "support/fixtures/user"
 
+require_relative "support/models/user"
+
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"
@@ -24,6 +26,11 @@ RSpec.configure do |config|
 
   config.expect_with :rspec do |c|
     c.syntax = :expect
+  end
+
+  # Prevent configuration of being shared through examples
+  config.before :each do
+    AR2DTO::Config.reset! if Object.const_defined?("AR2DTO::Config")
   end
 
   config.before(:suite) do
