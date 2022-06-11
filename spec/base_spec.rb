@@ -13,8 +13,6 @@ RSpec.describe ".has_dto" do
   end
 
   describe "#to_dto" do
-    subject { User.new(attributes).to_dto }
-
     let(:attributes) do
       {
         name: "Sandy",
@@ -23,30 +21,82 @@ RSpec.describe ".has_dto" do
       }
     end
 
-    it { is_expected.to be_a(UserDTO) }
+    context "when active record is in memory" do
+      subject { user.to_dto }
 
-    it "doesn't expose ActiveRecord's methods" do
-      expect(subject).not_to respond_to(:update)
+      let(:user) { User.new(attributes) }
+
+      it { is_expected.to be_a(UserDTO) }
+
+      it "doesn't expose ActiveRecord's methods" do
+        expect(subject).not_to respond_to(:update)
+      end
+
+      it "exposes methods to access the columns" do
+        expect(subject).to have_attributes(attributes)
+      end
+
+      it "exposes methods to access the columns set by persistance" do
+        expect(subject).to have_attributes(
+          id: nil,
+          created_at: nil,
+          updated_at: nil
+        )
+      end
+
+      it "is equal to another DTO of the same class with the same attributes that is in memory" do
+        user_with_same_attributes = User.new(attributes)
+
+        expect(subject).to eq(user_with_same_attributes.to_dto)
+      end
+
+      it "is not equal to another DTO of another class with same attributes" do
+        admin = double("Admin", attributes)
+
+        expect(subject).not_to eq(admin)
+      end
+
+      it "is not equal to another DTO of the same class with different attributes" do
+        other_user = User.new(attributes.merge(name: "Kent")).to_dto
+
+        expect(subject).not_to eq(other_user)
+      end
     end
 
-    it "exposes methods to access the columns" do
-      expect(subject).to have_attributes(attributes)
-    end
+    context "when active record is persisted" do
+      subject { user.to_dto }
 
-    it "is equal to another DTO of the same class with the same attributes" do
-      expect(subject).to eq(User.new(attributes).to_dto)
-    end
+      let(:user) { User.create(attributes) }
 
-    it "is not equal to another DTO of another class" do
-      admin = double("Admin", attributes)
+      it { is_expected.to be_a(UserDTO) }
 
-      expect(subject).not_to eq(admin)
-    end
+      it "doesn't expose ActiveRecord's methods" do
+        expect(subject).not_to respond_to(:update)
+      end
 
-    it "is not equal to another DTO of the same class with different attributes" do
-      other_user = User.new(attributes.merge(name: "Kent")).to_dto
+      it "exposes methods to access the columns" do
+        expect(subject).to have_attributes(attributes)
+      end
 
-      expect(subject).not_to eq(other_user)
+      it "exposes methods to access the columns set by persistance" do
+        expect(subject).to have_attributes(
+          id: user.id,
+          created_at: user.created_at,
+          updated_at: user.updated_at
+        )
+      end
+
+      it "is not equal to another DTO of the same class with the same attributes that is persisted" do
+        user_with_same_attributes = User.create(attributes)
+
+        expect(subject).not_to eq(user_with_same_attributes.to_dto)
+      end
+
+      it "is not equal to another DTO of another class with same attributes" do
+        admin = double("Admin", user.attributes)
+
+        expect(subject).not_to eq(admin)
+      end
     end
   end
 end
