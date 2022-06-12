@@ -6,7 +6,7 @@ module AR2DTO
       base.include ::ActiveModel::Conversion
       base.extend ::ActiveModel::Naming
       base.extend ::ActiveModel::Translation
-      base.extend ClassMethods
+      base.extend ::AR2DTO::ActiveModel::ClassMethods
 
       base.class_eval do
         def persisted?

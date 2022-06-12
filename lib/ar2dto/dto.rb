@@ -12,7 +12,7 @@ module AR2DTO
     end
 
     include ::ActiveModel::AttributeAssignment
-    include AR2DTO::ActiveModel
+    include ::AR2DTO::ActiveModel
 
     def initialize(attributes = {})
       assign_attributes(attributes) if attributes

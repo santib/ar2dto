@@ -4,10 +4,6 @@ require_relative "../spec_helper"
 require_relative "../../lib/ar2dto"
 
 RSpec.describe ".has_dto" do
-  class User < ActiveRecord::Base
-    has_dto
-  end
-
   it "creates a new DTO class" do
     expect(Object.const_defined?("UserDTO")).to be true
   end
@@ -61,6 +57,8 @@ RSpec.describe ".has_dto" do
 
         expect(subject).not_to eq(other_user)
       end
+
+      it_behaves_like "ActiveModel"
     end
 
     context "when active record is persisted" do
@@ -97,8 +95,8 @@ RSpec.describe ".has_dto" do
 
         expect(subject).not_to eq(admin)
       end
-    end
 
-    it_behaves_like "ActiveModel"
+      it_behaves_like "ActiveModel"
+    end
   end
 end

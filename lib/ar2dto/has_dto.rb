@@ -4,7 +4,7 @@ module AR2DTO
   # Extensions to `ActiveRecord::Base`.
   module HasDTO
     def self.included(base)
-      base.extend ClassMethods
+      base.extend ::AR2DTO::HasDTO::ClassMethods
     end
 
     module ClassMethods
@@ -15,9 +15,9 @@ module AR2DTO
         model = self
         namespace = model.name.deconstantize.presence&.constantize || Object
 
-        namespace.const_set("#{model.name.split("::").last}DTO", AR2DTO::DTO[model])
+        namespace.const_set("#{model.name.split("::").last}DTO", ::AR2DTO::DTO[model])
 
-        model.include HasDTO::InstanceMethods
+        model.include ::AR2DTO::HasDTO::InstanceMethods
       end
     end
 

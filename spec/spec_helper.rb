@@ -9,6 +9,7 @@ ActiveRecord::Base.establish_connection adapter: "sqlite3", database: ":memory:"
 require "ar2dto"
 require "support/active_model"
 require "support/schema"
+require "support/user"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
