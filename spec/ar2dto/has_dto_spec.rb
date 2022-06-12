@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../spec_helper"
-require_relative "../../lib/ar2dto"
+require "spec_helper"
 
 RSpec.describe ".has_dto" do
   it "creates a new DTO class" do
@@ -9,6 +8,8 @@ RSpec.describe ".has_dto" do
   end
 
   describe "#to_dto" do
+    subject { user.to_dto }
+
     let(:attributes) do
       {
         name: "Sandy",
@@ -18,8 +19,6 @@ RSpec.describe ".has_dto" do
     end
 
     context "when active record is in memory" do
-      subject { user.to_dto }
-
       let(:user) { User.new(attributes) }
 
       it { is_expected.to be_a(UserDTO) }
@@ -57,13 +56,9 @@ RSpec.describe ".has_dto" do
 
         expect(subject).not_to eq(other_user)
       end
-
-      it_behaves_like "ActiveModel"
     end
 
     context "when active record is persisted" do
-      subject { user.to_dto }
-
       let(:user) { User.create(attributes) }
 
       it { is_expected.to be_a(UserDTO) }
@@ -95,8 +90,6 @@ RSpec.describe ".has_dto" do
 
         expect(subject).not_to eq(admin)
       end
-
-      it_behaves_like "ActiveModel"
     end
   end
 end
