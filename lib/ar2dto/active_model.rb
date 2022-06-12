@@ -14,18 +14,18 @@ module AR2DTO
         end
 
         def errors
-          @errors ||= ::ActiveModel::Errors.new(self.class::ORIGINAL_MODEL)
+          @errors ||= ::ActiveModel::Errors.new(self.class.original_model)
         end
 
         def to_partial_path
-          self.class::ORIGINAL_MODEL._to_partial_path
+          self.class.original_model._to_partial_path
         end
       end
     end
 
     module ClassMethods
       def model_name
-        ::ActiveModel::Name.new(self::ORIGINAL_MODEL)
+        ::ActiveModel::Name.new(original_model)
       end
     end
   end

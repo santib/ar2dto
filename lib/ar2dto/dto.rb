@@ -4,15 +4,21 @@ module AR2DTO
   class DTO
     class << self
       def [](original_model)
-        Class.new(self) do |klass|
-          klass.const_set(:ORIGINAL_MODEL, original_model)
+        Class.new(self) do
           attr_accessor(*original_model.attribute_names)
+
+          define_singleton_method :original_model do
+            original_model
+          end
         end
       end
     end
 
-    include ::ActiveModel::AttributeAssignment
-    include ::AR2DTO::ActiveModel
+    def self.inherited(base)
+      base.include ::ActiveModel::AttributeAssignment
+      base.include ::AR2DTO::ActiveModel
+      super
+    end
 
     def initialize(attributes = {})
       assign_attributes(attributes) if attributes
