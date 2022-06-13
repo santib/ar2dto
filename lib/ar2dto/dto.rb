@@ -15,13 +15,12 @@ module AR2DTO
     end
 
     def self.inherited(base)
-      base.include ::ActiveModel::AttributeAssignment
       base.include ::AR2DTO::ActiveModel
       super
     end
 
     def initialize(attributes = {})
-      assign_attributes(attributes) if attributes
+      attributes.each { |key, value| send("#{key}=", value) }
 
       super()
     end
