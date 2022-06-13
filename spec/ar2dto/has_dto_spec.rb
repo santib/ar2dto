@@ -56,6 +56,10 @@ RSpec.describe ".has_dto" do
 
         expect(subject).not_to eq(other_user)
       end
+
+      it "is not possible to set values from outside" do
+        expect { subject.name = "Martin" }.to raise_error(NoMethodError)
+      end
     end
 
     context "when active record is persisted" do
@@ -89,6 +93,10 @@ RSpec.describe ".has_dto" do
         admin = double("Admin", user.attributes)
 
         expect(subject).not_to eq(admin)
+      end
+
+      it "is not possible to set values from outside" do
+        expect { subject.name = "Martin" }.to raise_error(NoMethodError)
       end
     end
   end

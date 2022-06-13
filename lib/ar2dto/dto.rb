@@ -5,7 +5,11 @@ module AR2DTO
     class << self
       def [](original_model)
         Class.new(self) do
-          attr_accessor(*original_model.attribute_names)
+          attr_reader(*original_model.attribute_names)
+
+          private
+
+          attr_writer(*original_model.attribute_names)
 
           define_singleton_method :original_model do
             original_model
