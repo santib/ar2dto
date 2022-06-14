@@ -8,7 +8,9 @@ ActiveRecord::Base.establish_connection adapter: "sqlite3", database: ":memory:"
 
 require "ar2dto"
 
-load "#{File.dirname(__FILE__)}/support/schema.rb"
+require "support/schema"
+require "support/fixtures/user"
+require "support/fixtures/shop/order"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
