@@ -4,12 +4,18 @@ require_relative "./spec_helper"
 require_relative "../lib/ar2dto"
 
 RSpec.describe ".has_dto" do
-  class User < ActiveRecord::Base
-    has_dto
-  end
-
   it "creates a new DTO class" do
     expect(Object.const_defined?("UserDTO")).to be true
+
+    expect(UserDTO.superclass).to eq AR2DTO::DTO
+  end
+
+  context "when the class already exists" do
+    it "does not create a new class" do
+      expect(Object.const_defined?("PersonDTO")).to be true
+
+      expect(PersonDTO.superclass).to eq AR2DTO::DTO
+    end
   end
 
   describe "#to_dto" do
