@@ -60,6 +60,8 @@ These settings are assigned directly on the `AR2DTO.configure` object.
 
 Configuration options are:
  - except
+ - class_prefix
+ - class_suffix
 
 Syntax examples:
 
@@ -68,6 +70,8 @@ Syntax examples:
 
   AR2DTO.configure do |config|
     config.except = [:updated_at]
+    config.class_prefix = ""
+    config.class_suffix = "DTO"
   end
 ```
 
@@ -77,6 +81,8 @@ OR
   # config/initializers/ar2dto.rb
 
   AR2DTO.configure.except = [:updated_at]
+  AR2DTO.configure.class_prefix = ""
+  AR2DTO.configure.class_suffix = "DTO"
 ```
 
 These options are intended to be set only once, during app initialization.

@@ -32,4 +32,52 @@ RSpec.describe "options" do
       expect(Car.new.to_dto).to be_a(VehicleDTO)
     end
   end
+
+  describe "option class_prefix" do
+    before do
+      # configure class_prefix globally
+      AR2DTO.configure do |config|
+        config.class_prefix = "My"
+      end
+    end
+
+    it "uses the class prefix when creating the dynamic class" do
+      # create a new anonymous class that uses has_dto with the new config
+      klass = Class.new(ActiveRecord::Base) do
+        self.table_name = :users
+
+        def self.name
+          "Anonymous"
+        end
+
+        has_dto
+      end
+
+      expect(klass.new.to_dto).to be_a(MyAnonymousDTO)
+    end
+  end
+
+  describe "option class_suffix" do
+    before do
+      # configure class_suffix globally
+      AR2DTO.configure do |config|
+        config.class_suffix = "Value"
+      end
+    end
+
+    it "uses the class suffix when creating the dynamic class" do
+      # create a new anonymous class that uses has_dto with the new config
+      klass = Class.new(ActiveRecord::Base) do
+        self.table_name = :users
+
+        def self.name
+          "Anonymous"
+        end
+
+        has_dto
+      end
+
+      expect(klass.new.to_dto).to be_a(AnonymousValue)
+    end
+  end
 end

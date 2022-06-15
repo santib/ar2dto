@@ -17,7 +17,8 @@ module AR2DTO
     end
 
     def class_name
-      configs[:class_name] || "#{model.name.split("::").last}DTO"
+      configs[:class_name] ||
+        "#{configs[:class_prefix]}#{model.name.split("::").last}#{configs[:class_suffix]}"
     end
 
     def namespace
