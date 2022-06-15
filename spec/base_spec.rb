@@ -4,24 +4,24 @@ require_relative "./spec_helper"
 require_relative "../lib/ar2dto"
 
 RSpec.describe ".has_dto" do
-  class User < ActiveRecord::Base
-    has_dto
-  end
-
   it "creates a new DTO class" do
     expect(Object.const_defined?("UserDTO")).to be true
   end
 
-  describe "#to_dto" do
-    let(:attributes) do
-      {
-        name: "Sandy",
-        email: "sandy@example.com",
-        birthday: Time.new(1995, 8, 25)
-      }
-    end
+  it "creates the new DTO class in the correct namespace" do
+    expect(Shop.const_defined?("OrderDTO")).to be true
+  end
 
+  describe "#to_dto" do
     context "when active record is in memory" do
+      let(:attributes) do
+        {
+          name: "Sandy",
+          email: "sandy@example.com",
+          birthday: Time.new(1995, 8, 25)
+        }
+      end
+
       subject { user.to_dto }
 
       let(:user) { User.new(attributes) }
@@ -64,6 +64,14 @@ RSpec.describe ".has_dto" do
     end
 
     context "when active record is persisted" do
+      let(:attributes) do
+        {
+          name: "Sandy",
+          email: "sandy@example.com",
+          birthday: Time.new(1995, 8, 25)
+        }
+      end
+
       subject { user.to_dto }
 
       let(:user) { User.create(attributes) }
@@ -97,6 +105,20 @@ RSpec.describe ".has_dto" do
 
         expect(subject).not_to eq(admin)
       end
+    end
+
+    context "with a namespaced model" do
+      let(:attributes) do
+        {
+          user_id: 1
+        }
+      end
+
+      subject { order.to_dto }
+
+      let(:order) { Shop::Order.new(attributes) }
+
+      it { is_expected.to be_a(Shop::OrderDTO) }
     end
   end
 end

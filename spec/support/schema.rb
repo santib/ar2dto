@@ -10,4 +10,10 @@ ActiveRecord::Schema.define do
 
     t.timestamps
   end
+
+  create_table :shop_orders, force: true do |t|
+    t.bigint :user_id
+
+    t.timestamps
+  end
 end
