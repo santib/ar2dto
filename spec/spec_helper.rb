@@ -10,8 +10,8 @@ require "ar2dto"
 
 require "support/active_model"
 require "support/schema"
-require "support/fixtures/person"
 require "support/fixtures/person_dto"
+require "support/fixtures/person"
 require "support/fixtures/shop/order"
 require "support/fixtures/user"
 
