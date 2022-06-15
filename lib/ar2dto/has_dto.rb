@@ -24,6 +24,11 @@ module AR2DTO
 
         model.include Model::InstanceMethods
       end
+
+      # @api public
+      def to_dto
+        all.map(&:to_dto)
+      end
     end
 
     # Wrap the following methods in a module so we can include them only in the

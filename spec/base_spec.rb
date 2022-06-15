@@ -99,4 +99,35 @@ RSpec.describe ".has_dto" do
       end
     end
   end
+
+  describe ".to_dto" do
+    subject { relation.to_dto }
+
+    let(:relation) { User.all }
+
+    before do
+      User.create!(name: "Sandy", email: "sandy@example.com")
+      User.create!(name: "Kent", email: "kent@example.com")
+      User.create!(name: "Martin", email: "martin@example.com")
+    end
+
+    it "returns an array of DTOs" do
+      expect(subject).to be_an(Array)
+      expect(subject.size).to eq(3)
+      expect(subject.first).to be_a(UserDTO)
+      expect(subject.second).to be_a(UserDTO)
+      expect(subject.third).to be_a(UserDTO)
+    end
+
+    context "when the relation is scoped" do
+      let(:relation) { User.where(name: "Sandy") }
+
+      it "returns the DTO of the matching records" do
+        expect(subject).to be_an(Array)
+        expect(subject.size).to eq(1)
+        expect(subject.first).to be_a(UserDTO)
+        expect(subject.first.name).to eq("Sandy")
+      end
+    end
+  end
 end
