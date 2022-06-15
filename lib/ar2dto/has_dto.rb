@@ -25,6 +25,11 @@ module AR2DTO
 
         namespace.const_set(class_name, AR2DTO::DTO[self])
       end
+
+      # @api public
+      def to_dto
+        all.map(&:to_dto)
+      end
     end
 
     # Wrap the following methods in a module so we can include them only in the
