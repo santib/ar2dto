@@ -11,6 +11,13 @@ ActiveRecord::Schema.define do
     t.timestamps
   end
 
+  create_table :people, force: true do |t|
+    t.string :name
+    t.datetime :birthday
+
+    t.timestamps
+  end
+
   create_table :shop_orders, force: true do |t|
     t.bigint :user_id
 
