@@ -12,12 +12,18 @@ module AR2DTO
       #
       # @api public
       def has_dto
-        model = self
-        namespace = model.name.deconstantize.presence&.constantize || Object
+        include ::AR2DTO::HasDTO::InstanceMethods
+        namespace = name.deconstantize.presence&.constantize || Object
+        class_name = "#{name.split("::").last}DTO"
 
-        namespace.const_set("#{model.name.split("::").last}DTO", ::AR2DTO::DTO[model])
+        return if namespace.const_defined?(class_name)
 
-        model.include ::AR2DTO::HasDTO::InstanceMethods
+        namespace.const_set(class_name, AR2DTO::DTO[self])
+      end
+
+      # @api public
+      def to_dto
+        all.map(&:to_dto)
       end
     end
 

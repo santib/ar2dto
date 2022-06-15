@@ -5,20 +5,34 @@ require "spec_helper"
 RSpec.describe ".has_dto" do
   it "creates a new DTO class" do
     expect(Object.const_defined?("UserDTO")).to be true
+
+    expect(UserDTO.superclass).to eq AR2DTO::DTO
+  end
+
+  context "when the class already exists" do
+    it "does not create a new class" do
+      expect(Object.const_defined?("PersonDTO")).to be true
+
+      expect(PersonDTO.superclass).to eq AR2DTO::DTO
+    end
+  end
+
+  it "creates the new DTO class in the correct namespace" do
+    expect(Shop.const_defined?("OrderDTO")).to be true
   end
 
   describe "#to_dto" do
-    subject { user.to_dto }
-
-    let(:attributes) do
-      {
-        name: "Sandy",
-        email: "sandy@example.com",
-        birthday: Time.new(1995, 8, 25)
-      }
-    end
-
     context "when active record is in memory" do
+      let(:attributes) do
+        {
+          name: "Sandy",
+          email: "sandy@example.com",
+          birthday: Time.new(1995, 8, 25)
+        }
+      end
+
+      subject { user.to_dto }
+
       let(:user) { User.new(attributes) }
 
       it { is_expected.to be_a(UserDTO) }
@@ -63,6 +77,16 @@ RSpec.describe ".has_dto" do
     end
 
     context "when active record is persisted" do
+      let(:attributes) do
+        {
+          name: "Sandy",
+          email: "sandy@example.com",
+          birthday: Time.new(1995, 8, 25)
+        }
+      end
+
+      subject { user.to_dto }
+
       let(:user) { User.create(attributes) }
 
       it { is_expected.to be_a(UserDTO) }
@@ -97,6 +121,51 @@ RSpec.describe ".has_dto" do
 
       it "is not possible to set values from outside" do
         expect { subject.name = "Martin" }.to raise_error(NoMethodError)
+      end
+    end
+
+    context "with a namespaced model" do
+      let(:attributes) do
+        {
+          user_id: 1
+        }
+      end
+
+      subject { order.to_dto }
+
+      let(:order) { Shop::Order.new(attributes) }
+
+      it { is_expected.to be_a(Shop::OrderDTO) }
+    end
+  end
+
+  describe ".to_dto" do
+    subject { relation.to_dto }
+
+    let(:relation) { User.all }
+
+    before do
+      User.create!(name: "Sandy", email: "sandy@example.com")
+      User.create!(name: "Kent", email: "kent@example.com")
+      User.create!(name: "Martin", email: "martin@example.com")
+    end
+
+    it "returns an array of DTOs" do
+      expect(subject).to be_an(Array)
+      expect(subject.size).to eq(3)
+      expect(subject.first).to be_a(UserDTO)
+      expect(subject.second).to be_a(UserDTO)
+      expect(subject.third).to be_a(UserDTO)
+    end
+
+    context "when the relation is scoped" do
+      let(:relation) { User.where(name: "Sandy") }
+
+      it "returns the DTO of the matching records" do
+        expect(subject).to be_an(Array)
+        expect(subject.size).to eq(1)
+        expect(subject.first).to be_a(UserDTO)
+        expect(subject.first.name).to eq("Sandy")
       end
     end
   end
