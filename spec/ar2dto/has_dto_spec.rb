@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "./spec_helper"
-require_relative "../lib/ar2dto"
+require "spec_helper"
 
 RSpec.describe ".has_dto" do
   it "creates a new DTO class" do
@@ -10,16 +9,16 @@ RSpec.describe ".has_dto" do
     expect(UserDTO.superclass).to eq AR2DTO::DTO
   end
 
+  it "creates the new DTO class in the correct namespace" do
+    expect(Shop.const_defined?("OrderDTO")).to be true
+  end
+
   context "when the class already exists" do
     it "does not create a new class" do
       expect(Object.const_defined?("PersonDTO")).to be true
 
-      expect(PersonDTO.superclass).to eq AR2DTO::DTO
+      expect(PersonDTO.superclass).to_not eq AR2DTO::DTO
     end
-  end
-
-  it "creates the new DTO class in the correct namespace" do
-    expect(Shop.const_defined?("OrderDTO")).to be true
   end
 
   describe "#to_dto" do
@@ -71,6 +70,10 @@ RSpec.describe ".has_dto" do
 
         expect(subject).not_to eq(other_user)
       end
+
+      it "is not possible to set values from outside" do
+        expect { subject.name = "Martin" }.to raise_error(NoMethodError)
+      end
     end
 
     context "when active record is persisted" do
@@ -114,6 +117,10 @@ RSpec.describe ".has_dto" do
         admin = double("Admin", user.attributes)
 
         expect(subject).not_to eq(admin)
+      end
+
+      it "is not possible to set values from outside" do
+        expect { subject.name = "Martin" }.to raise_error(NoMethodError)
       end
     end
 

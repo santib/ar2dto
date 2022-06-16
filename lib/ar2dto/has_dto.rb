@@ -1,15 +1,10 @@
 # frozen_string_literal: true
 
-# Extracted from:
-# https://github.com/paper-trail-gem/paper_trail/blob/49659e8a0c4cb0c80aeab344b7b434de7f057c88/lib/paper_trail/has_paper_trail.rb
-
-require_relative "dto"
-
 module AR2DTO
   # Extensions to `ActiveRecord::Base`.
-  module Model
+  module HasDTO
     def self.included(base)
-      base.extend ClassMethods
+      base.extend ::AR2DTO::HasDTO::ClassMethods
     end
 
     module ClassMethods
@@ -17,7 +12,7 @@ module AR2DTO
       #
       # @api public
       def has_dto
-        include Model::InstanceMethods
+        include ::AR2DTO::HasDTO::InstanceMethods
         namespace = name.deconstantize.presence&.constantize || Object
         class_name = "#{name.split("::").last}DTO"
 
