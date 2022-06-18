@@ -122,6 +122,20 @@ user_dto = user.to_dto
 
 You can then use `user_dto` across your app, and even share it with other components, without having to worry about others making queries, modifying data, or even running business logic, where they shouldn't.
 
+This method accepts the same options as `ActiveRecord`'s `#as_json`, they are `except`, `only`, `methods`, and `include`.
+
+`except`
+Excludes attributes from the model when creating the DTO.
+
+`only`
+Selects which attributes should only be included when creating the DTO.
+
+`methods`
+Run methods defined in the model and stores the values into the DTO as attributes.
+
+`include`
+Includes an association into the DTO. The association is also converted into a DTO in case of a `has_one`/`belongs_to` association, or into an `Array` of DTOs in case of a `has_many` association. The associations accepts the same options explained above.
+
 ### .to_dto
 
 This method is similar to `#to_dto` but meant for `ActiveRecord::Relation`. So that running:
@@ -131,6 +145,8 @@ User.last(10).to_dto
 ```
 
 will return an `Array` consisting of 10 `UserDTO`. With this you are forcing the executing of the query, having collections of simple data objects, and avoiding other parts of the app from modifying the query.
+
+It accepts the same options as `#to_dto` and uses them create each DTO.
 
 ## Development
 
