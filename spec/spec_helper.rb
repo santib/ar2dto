@@ -15,8 +15,6 @@ require "support/fixtures/person"
 require "support/fixtures/shop/order"
 require "support/fixtures/user"
 
-require_relative "support/models/user"
-
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"
