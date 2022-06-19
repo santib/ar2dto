@@ -26,6 +26,11 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
+  # Prevent configuration of being shared through examples
+  config.before :each do
+    AR2DTO::Config.reset! if Object.const_defined?("AR2DTO::Config")
+  end
+
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)

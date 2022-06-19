@@ -5,11 +5,16 @@ module AR2DTO
     class << self
       def [](original_model)
         Class.new(self) do
-          attr_reader(*original_model.attribute_names)
+          define_singleton_method :public_attributes do
+            original_model.attribute_names.map(&:to_sym) -
+              AR2DTO::Config.instance.except
+          end
+
+          attr_reader(*public_attributes)
 
           private
 
-          attr_writer(*original_model.attribute_names)
+          attr_writer(*public_attributes)
 
           define_singleton_method :original_model do
             original_model
@@ -24,7 +29,7 @@ module AR2DTO
     end
 
     def initialize(attributes = {})
-      attributes.each { |key, value| send("#{key}=", value) }
+      self.class.public_attributes.map(&:to_s).each { |key, _value| send("#{key}=", attributes[key]) }
 
       super()
     end
