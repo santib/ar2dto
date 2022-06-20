@@ -148,6 +148,8 @@ will return an `Array` consisting of 10 `UserDTO`. With this you are forcing the
 
 It accepts the same options as `#to_dto` and uses them create each DTO.
 
+:warning: **Warning!** Given that this method executes the query and brings records into memory, you have to be careful when and how to use it. You may not want to bring all records from a large table into memory. Consider combining it with things such as pagination or batch processing.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
