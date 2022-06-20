@@ -13,6 +13,7 @@ ActiveRecord::Schema.define do
   end
 
   create_table :people, force: true do |t|
+    t.bigint :user_id
     t.string :first_name
     t.string :last_name
     t.datetime :birthday

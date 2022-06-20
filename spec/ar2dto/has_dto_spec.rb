@@ -73,7 +73,7 @@ RSpec.describe ".has_dto" do
     end
 
     it "is not possible to set values from outside" do
-      expect { subject.first_name = "Martin" }.to raise_error(NoMethodError)
+      expect(subject).to_not respond_to(:first_name=)
     end
 
     context "when including methods" do
@@ -84,26 +84,32 @@ RSpec.describe ".has_dto" do
       it "becomes accessible in the DTO" do
         expect(subject.full_name).to eq("Sandy Doe")
       end
+
+      it "is not possible to call methods that weren't added" do
+        expect(subject).to_not respond_to(:strange_name)
+      end
     end
 
     context "when including associations" do
       let(:options) do
-        { include: [:orders] }
+        { include: %i[orders person] }
       end
 
       before do
         user.orders.new
+        user.build_person
       end
 
       it "becomes accessible in the DTO" do
         expect(subject.orders).to be_an(Array)
         expect(subject.orders.first).to be_an(Shop::OrderDTO)
+        expect(subject.person).to be_a(PersonDTO)
       end
 
       it "is equal to another DTO of the same class with different data for associations" do
         user_with_same_attributes = User.new(attributes)
 
-        expect(subject).to eq(user_with_same_attributes.to_dto(include: :orders))
+        expect(subject).to eq(user_with_same_attributes.to_dto)
       end
     end
 
@@ -113,19 +119,20 @@ RSpec.describe ".has_dto" do
       end
 
       it "becomes inaccessible in the DTO" do
-        expect { subject.first_name }.to raise_error(NoMethodError)
+        expect(subject).to_not respond_to(:first_name)
         expect(subject.last_name).to eq("Doe")
       end
     end
 
     context "when excluding attributes via only" do
       let(:options) do
-        { only: [:last_name] }
+        { only: %i[last_name birthday] }
       end
 
       it "becomes inaccessible in the DTO" do
-        expect { subject.first_name }.to raise_error(NoMethodError)
+        expect(subject).to_not respond_to(:first_name)
         expect(subject.last_name).to eq("Doe")
+        expect(subject.birthday).to eq(Time.new(1995, 8, 25))
       end
     end
 
@@ -171,16 +178,17 @@ RSpec.describe ".has_dto" do
       end
 
       it "is not possible to set values from outside" do
-        expect { subject.first_name = "Martin" }.to raise_error(NoMethodError)
+        expect(subject).to_not respond_to(:first_name=)
       end
 
       context "when including associations" do
         let(:options) do
-          { include: [:orders] }
+          { include: %i[orders person] }
         end
 
         before do
           user.orders.create!
+          user.create_person!
         end
 
         it "becomes accessible in the DTO" do
@@ -188,6 +196,8 @@ RSpec.describe ".has_dto" do
           expect(subject.orders.first).to be_an(Shop::OrderDTO)
           expect(subject.orders.first.user_id).to eq(user.id)
           expect(subject.orders.first.user_id).to_not be_nil
+          expect(subject.person).to be_a(PersonDTO)
+          expect(subject.person.user_id).to eq(user.id)
         end
 
         it "is equal to another DTO of the same class with different data for associations" do
@@ -201,7 +211,7 @@ RSpec.describe ".has_dto" do
         end
 
         it "becomes inaccessible in the DTO" do
-          expect { subject.first_name }.to raise_error(NoMethodError)
+          expect(subject).to_not respond_to(:first_name)
           expect(subject.last_name).to eq("Doe")
         end
       end
@@ -212,7 +222,7 @@ RSpec.describe ".has_dto" do
         end
 
         it "becomes inaccessible in the DTO" do
-          expect { subject.first_name }.to raise_error(NoMethodError)
+          expect(subject).to_not respond_to(:first_name)
           expect(subject.last_name).to eq("Doe")
         end
       end
@@ -306,12 +316,13 @@ RSpec.describe ".has_dto" do
 
     context "when including associations" do
       let(:options) do
-        { include: [:orders] }
+        { include: %i[orders person] }
       end
 
       before do
         user.orders.create!
         another_user.orders.create!
+        user.create_person!
       end
 
       it "becomes accessible in the DTOs" do
@@ -319,10 +330,13 @@ RSpec.describe ".has_dto" do
         expect(subject.first.orders.first).to be_an(Shop::OrderDTO)
         expect(subject.first.orders.first.user_id).to eq(user.id)
         expect(subject.first.orders.first.user_id).to_not be_nil
+        expect(subject.first.person).to be_a(PersonDTO)
+        expect(subject.first.person.user_id).to eq(user.id)
         expect(subject.second.orders).to be_an(Array)
         expect(subject.second.orders.first).to be_an(Shop::OrderDTO)
         expect(subject.second.orders.first.user_id).to eq(another_user.id)
         expect(subject.second.orders.first.user_id).to_not be_nil
+        expect(subject.second.person).to be_nil
       end
     end
 
@@ -332,9 +346,9 @@ RSpec.describe ".has_dto" do
       end
 
       it "becomes inaccessible in the DTOs" do
-        expect { subject.first.first_name }.to raise_error(NoMethodError)
+        expect(subject.first).to_not respond_to(:first_name)
         expect(subject.first.last_name).to eq("Doe")
-        expect { subject.second.first_name }.to raise_error(NoMethodError)
+        expect(subject.second).to_not respond_to(:first_name)
         expect(subject.second.last_name).to eq("Simpson")
       end
     end
@@ -345,9 +359,9 @@ RSpec.describe ".has_dto" do
       end
 
       it "becomes inaccessible in the DTOs" do
-        expect { subject.first.first_name }.to raise_error(NoMethodError)
+        expect(subject.first).to_not respond_to(:first_name)
         expect(subject.first.last_name).to eq("Doe")
-        expect { subject.second.first_name }.to raise_error(NoMethodError)
+        expect(subject.second).to_not respond_to(:first_name)
         expect(subject.second.last_name).to eq("Simpson")
       end
     end

@@ -128,7 +128,7 @@ This method accepts the same options as `ActiveRecord`'s `#as_json`, they are `e
 Excludes attributes from the model when creating the DTO.
 
 `only`
-Selects which attributes should only be included when creating the DTO.
+Selects the only attributes that should be included when creating the DTO.
 
 `methods`
 Run methods defined in the model and stores the values into the DTO as attributes.
