@@ -7,7 +7,7 @@ RSpec.describe "AR2DTO::ActiveModel" do
 
   let(:attributes) do
     {
-      name: "Sandy",
+      first_name: "Sandy",
       email: "sandy@example.com",
       birthday: Time.new(1995, 8, 25)
     }

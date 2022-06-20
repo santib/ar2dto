@@ -22,8 +22,8 @@ module AR2DTO
       end
 
       # @api public
-      def to_dto
-        all.map(&:to_dto)
+      def to_dto(options = {})
+        all.map { |record| record.to_dto(options) }
       end
     end
 
@@ -31,8 +31,10 @@ module AR2DTO
     # ActiveRecord models that declare `has_dto`.
     module InstanceMethods
       # @api public
-      def to_dto
-        "#{self.class.name}DTO".constantize.new(attributes)
+      def to_dto(options = {})
+        "#{self.class.name}DTO".constantize.new(
+          AR2DTO::Converter.new(self, options).serializable_hash
+        )
       end
     end
   end

@@ -5,17 +5,6 @@ module AR2DTO
     class << self
       def [](original_model)
         Class.new(self) do
-          define_singleton_method :public_attributes do
-            original_model.attribute_names.map(&:to_sym) -
-              AR2DTO::Config.instance.except
-          end
-
-          attr_reader(*public_attributes)
-
-          private
-
-          attr_writer(*public_attributes)
-
           define_singleton_method :original_model do
             original_model
           end
@@ -29,14 +18,17 @@ module AR2DTO
     end
 
     def initialize(attributes = {})
-      self.class.public_attributes.map(&:to_s).each { |key, _value| send("#{key}=", attributes[key]) }
+      singleton_class.instance_eval { attr_reader(*attributes.keys) }
+
+      attributes.each { |key, value| instance_variable_set("@#{key}", value) }
 
       super()
     end
 
     def ==(other)
       if other.instance_of?(self.class)
-        as_json == other.as_json
+        attribute_names = self.class.original_model.attribute_names
+        as_json(only: attribute_names) == other.as_json(only: attribute_names)
       else
         super
       end
