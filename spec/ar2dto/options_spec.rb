@@ -26,4 +26,10 @@ RSpec.describe "options" do
       end
     end
   end
+
+  describe "option class_name" do
+    it "respects the custom class_name" do
+      expect(Car.new.to_dto).to be_a(VehicleDTO)
+    end
+  end
 end

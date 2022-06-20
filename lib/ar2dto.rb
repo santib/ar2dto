@@ -7,6 +7,7 @@ require_relative "ar2dto/active_model"
 require_relative "ar2dto/dto"
 require_relative "ar2dto/config"
 require_relative "ar2dto/converter"
+require_relative "ar2dto/model_config"
 require_relative "ar2dto/version"
 require_relative "ar2dto/has_dto"
 

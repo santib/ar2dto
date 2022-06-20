@@ -26,4 +26,10 @@ ActiveRecord::Schema.define do
 
     t.timestamps
   end
+
+  create_table :cars, force: true do |t|
+    t.string :model
+
+    t.timestamps
+  end
 end
