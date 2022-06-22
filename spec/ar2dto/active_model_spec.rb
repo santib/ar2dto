@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "spec_helper"
-
 RSpec.describe "AR2DTO::ActiveModel" do
   subject { user.to_dto }
 
