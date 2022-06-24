@@ -8,16 +8,14 @@ module AR2DTO
 
     def self.reset!
       instance.except = []
-      instance.class_prefix = ""
-      instance.class_suffix = "DTO"
+      instance.replace_suffix = { from: "", to: "DTO" }
     end
 
-    attr_accessor :except, :class_prefix, :class_suffix
+    attr_accessor :except, :replace_suffix
 
     def initialize
       @except = []
-      @class_prefix = ""
-      @class_suffix = "DTO"
+      @replace_suffix = { from: "", to: "DTO" }
     end
   end
 end

@@ -59,9 +59,8 @@ Global configuration options affect all threads and models where has_dto has bee
 These settings are assigned directly on the `AR2DTO.configure` object.
 
 Configuration options are:
- - except
- - class_prefix
- - class_suffix
+ - `except`: array of attributes to exclude from the DTO
+ - `replace_suffix`: hash with keys `from` and `to`, where `from` is the suffix to be replaced with the value of `to`
 
 Syntax examples:
 
@@ -70,8 +69,7 @@ Syntax examples:
 
   AR2DTO.configure do |config|
     config.except = [:updated_at]
-    config.class_prefix = ""
-    config.class_suffix = "DTO"
+    config.replace_suffix = { from: "", to: "DTO" }
   end
 ```
 
@@ -81,8 +79,7 @@ OR
   # config/initializers/ar2dto.rb
 
   AR2DTO.configure.except = [:updated_at]
-  AR2DTO.configure.class_prefix = ""
-  AR2DTO.configure.class_suffix = "DTO"
+  AR2DTO.configure.replace_suffix = { from: "", to: "DTO" }
 ```
 
 These options are intended to be set only once, during app initialization.

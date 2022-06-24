@@ -9,16 +9,16 @@ module AR2DTO
     end
 
     def setup_config(configs)
-      @configs = AR2DTO::Config.instance.as_json.merge(configs.as_json).symbolize_keys
+      @configs = AR2DTO::Config.instance.as_json.merge(configs.as_json)
     end
 
     def except
-      configs[:except]
+      configs["except"]
     end
 
     def class_name
-      configs[:class_name] ||
-        "#{configs[:class_prefix]}#{model.name.split("::").last}#{configs[:class_suffix]}"
+      configs["class_name"] ||
+        model_name.sub(/#{configs["replace_suffix"]["from"]}$/, configs["replace_suffix"]["to"].to_s)
     end
 
     def namespace
@@ -27,6 +27,12 @@ module AR2DTO
 
     def namespaced_class_name
       "#{namespace}::#{class_name}"
+    end
+
+    private
+
+    def model_name
+      model.name.split("::").last
     end
   end
 end

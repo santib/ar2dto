@@ -33,36 +33,16 @@ RSpec.describe "options" do
     end
   end
 
-  describe "option class_prefix" do
+  describe "option replace_suffix" do
     before do
-      # configure class_prefix globally
+      # configure replace_suffix globally
       AR2DTO.configure do |config|
-        config.class_prefix = "My"
+        config.replace_suffix = replace_suffix
       end
     end
 
-    it "uses the class prefix when creating the dynamic class" do
-      # create a new anonymous class that uses has_dto with the new config
-      klass = Class.new(ActiveRecord::Base) do
-        self.table_name = :users
-
-        def self.name
-          "Anonymous"
-        end
-
-        has_dto
-      end
-
-      expect(klass.new.to_dto).to be_a(MyAnonymousDTO)
-    end
-  end
-
-  describe "option class_suffix" do
-    before do
-      # configure class_suffix globally
-      AR2DTO.configure do |config|
-        config.class_suffix = "Value"
-      end
+    let(:replace_suffix) do
+      { from: "Record", to: "Value" }
     end
 
     it "uses the class suffix when creating the dynamic class" do
@@ -71,13 +51,34 @@ RSpec.describe "options" do
         self.table_name = :users
 
         def self.name
-          "Anonymous"
+          "MyClassRecord"
         end
 
         has_dto
       end
 
-      expect(klass.new.to_dto).to be_a(AnonymousValue)
+      expect(klass.new.to_dto).to be_a(MyClassValue)
+    end
+
+    context "removing a suffix" do
+      let(:replace_suffix) do
+        { from: "Record", to: "" }
+      end
+
+      it "uses the class suffix when creating the dynamic class" do
+        # create a new anonymous class that uses has_dto with the new config
+        klass = Class.new(ActiveRecord::Base) do
+          self.table_name = :users
+
+          def self.name
+            "AnonymousRecord"
+          end
+
+          has_dto
+        end
+
+        expect(klass.new.to_dto).to be_a(Anonymous)
+      end
     end
   end
 end
