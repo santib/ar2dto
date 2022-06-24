@@ -11,19 +11,23 @@ module AR2DTO
       # Declare this in your model to expose the DTO helpers.
       #
       # @api public
-      def has_dto
+      def has_dto(options = {})
         include ::AR2DTO::HasDTO::InstanceMethods
-        namespace = name.deconstantize.presence&.constantize || Object
-        class_name = "#{name.split("::").last}DTO"
+        ar2dto.setup_config(options)
 
-        return if namespace.const_defined?(class_name)
+        return if ar2dto.namespace.const_defined?(ar2dto.class_name)
 
-        namespace.const_set(class_name, AR2DTO::DTO[self])
+        ar2dto.namespace.const_set(ar2dto.class_name, AR2DTO::DTO[self])
       end
 
       # @api public
       def to_dto(options = {})
         all.map { |record| record.to_dto(options) }
+      end
+
+      # @api public
+      def ar2dto
+        @ar2dto ||= AR2DTO::ModelConfig.new(self)
       end
     end
 
@@ -32,7 +36,7 @@ module AR2DTO
     module InstanceMethods
       # @api public
       def to_dto(options = {})
-        "#{self.class.name}DTO".constantize.new(
+        self.class.ar2dto.namespaced_class_name.constantize.new(
           AR2DTO::Converter.new(self, options).serializable_hash
         )
       end
