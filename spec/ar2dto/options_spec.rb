@@ -81,4 +81,54 @@ RSpec.describe "options" do
       end
     end
   end
+
+  describe "option active_model_compliance" do
+    context "when it is true" do
+      before do
+        # configure active_model_compliance globally
+        AR2DTO.configure do |config|
+          config.active_model_compliance = true
+        end
+      end
+
+      it "responds to ActiveModel methods" do
+        # create a new anonymous class that uses has_dto with the new config
+        klass = Class.new(ActiveRecord::Base) do
+          self.table_name = :users
+
+          def self.name
+            "Something"
+          end
+
+          has_dto
+        end
+
+        expect(klass.new.to_dto).to respond_to(:persisted?)
+      end
+    end
+
+    context "when it is false" do
+      before do
+        # configure active_model_compliance globally
+        AR2DTO.configure do |config|
+          config.active_model_compliance = false
+        end
+      end
+
+      it "doesn't respond to ActiveModel methods" do
+        # create a new anonymous class that uses has_dto with the new config
+        klass = Class.new(ActiveRecord::Base) do
+          self.table_name = :users
+
+          def self.name
+            "SomethingElse"
+          end
+
+          has_dto
+        end
+
+        expect(klass.new.to_dto).not_to respond_to(:persisted?)
+      end
+    end
+  end
 end

@@ -13,7 +13,7 @@ module AR2DTO
     end
 
     def self.inherited(base)
-      base.include ::AR2DTO::ActiveModel
+      base.include ::AR2DTO::ActiveModel if ::AR2DTO::Config.instance.active_model_compliance
       super
     end
 
