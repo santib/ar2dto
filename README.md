@@ -59,8 +59,9 @@ Global configuration options affect all threads and models where has_dto has bee
 These settings are assigned directly on the `AR2DTO.configure` object.
 
 Configuration options are:
- - `except`: array of attributes to exclude from the DTO
- - `replace_suffix`: hash with keys `from` and `to`, where `from` is the suffix to be replaced with the value of `to`
+ - `active_model_compliace`: DTO objects behaves like `ActiveModel` objects to play well with other parts of Rails and its ecosystem. Defaults to `true`.
+ - `except`: array of attributes to exclude from the DTO. Defaults to `[]`.
+ - `replace_suffix`: hash with keys `from` and `to`, where `from` is the suffix to be replaced with the value of `to`. Defaults to `{ from: "", to: "DTO" }`.
 
 Syntax examples:
 
@@ -68,6 +69,7 @@ Syntax examples:
   # config/initializers/ar2dto.rb
 
   AR2DTO.configure do |config|
+    config.active_model_compliance = true
     config.except = [:updated_at]
     config.replace_suffix = { from: "", to: "DTO" }
   end
@@ -78,6 +80,7 @@ OR
 ```ruby
   # config/initializers/ar2dto.rb
 
+  AR2DTO.configure.active_model_compliance = true
   AR2DTO.configure.except = [:updated_at]
   AR2DTO.configure.replace_suffix = { from: "", to: "DTO" }
 ```
