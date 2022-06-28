@@ -6,6 +6,10 @@ AllCops:
 Lint/ConstantDefinitionInBlock:
   Enabled: false
 
+Lint/Void:
+  Exclude:
+    - spec/ar2dto/has_dto_spec.rb
+
 Layout/LineLength:
   Max: 120
 

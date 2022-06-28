@@ -15,9 +15,11 @@ module AR2DTO
         include ::AR2DTO::HasDTO::InstanceMethods
         ar2dto.setup_config(options)
 
-        return if ar2dto.namespace.const_defined?(ar2dto.class_name)
-
-        ar2dto.namespace.const_set(ar2dto.class_name, AR2DTO::DTO[self])
+        begin
+          ar2dto.namespaced_class_name.constantize
+        rescue NameError
+          ar2dto.namespace.const_set(ar2dto.class_name, AR2DTO::DTO[self])
+        end
       end
 
       # @api public

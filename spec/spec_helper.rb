@@ -10,11 +10,11 @@ require "ar2dto"
 
 require "support/active_model"
 require "support/schema"
-require "support/fixtures/car"
-require "support/fixtures/person_dto"
-require "support/fixtures/person"
-require "support/fixtures/shop/order"
-require "support/fixtures/user"
+require "zeitwerk"
+loader = Zeitwerk::Loader.new
+loader.inflector.inflect "person_dto" => "PersonDTO"
+loader.push_dir("spec/support/fixtures")
+loader.setup
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
