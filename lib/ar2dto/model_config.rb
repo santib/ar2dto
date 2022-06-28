@@ -13,26 +13,25 @@ module AR2DTO
     end
 
     def except
-      configs["except"]
+      @except ||= configs["except"]
     end
 
     def class_name
-      configs["class_name"] ||
-        model_name.sub(/#{configs["replace_suffix"]["from"]}$/, configs["replace_suffix"]["to"].to_s)
+      @class_name ||= namespaced_class_name.split("::").last
     end
 
     def namespace
-      @namespace ||= model.name.deconstantize.presence&.constantize || Object
+      @namespace ||= namespaced_class_name.deconstantize.presence&.constantize || Object
     end
 
     def namespaced_class_name
-      "#{namespace}::#{class_name}"
+      @namespaced_class_name ||= configs["class_name"] || model_name_replaced_suffix
     end
 
     private
 
-    def model_name
-      model.name.split("::").last
+    def model_name_replaced_suffix
+      model.name.sub(/#{configs["replace_suffix"]["from"]}$/, configs["replace_suffix"]["to"].to_s)
     end
   end
 end

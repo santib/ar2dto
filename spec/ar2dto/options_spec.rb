@@ -31,6 +31,12 @@ RSpec.describe "options" do
     it "respects the custom class_name" do
       expect(Car.new.to_dto).to be_a(VehicleDTO)
     end
+
+    context "with a namespace" do
+      it "respects the custom class_name" do
+        expect(Shop::LineItem.new.to_dto).to be_a(Core::LineItemDTO)
+      end
+    end
   end
 
   describe "option replace_suffix" do

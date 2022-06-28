@@ -33,4 +33,12 @@ ActiveRecord::Schema.define do
 
     t.timestamps
   end
+
+  create_table :shop_line_items, force: true do |t|
+    t.bigint :order_id
+    t.string :name
+    t.bigint :price
+
+    t.timestamps
+  end
 end

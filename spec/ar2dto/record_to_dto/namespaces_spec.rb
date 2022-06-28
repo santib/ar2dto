@@ -2,19 +2,30 @@
 
 RSpec.describe "#to_dto" do
   describe "namespaces" do
-    context "with a namespaced model" do
+    let(:attributes) do
+      {
+        user_id: 1
+      }
+    end
+
+    subject { order.to_dto }
+
+    let(:order) { Shop::Order.new(attributes) }
+
+    it { is_expected.to be_a(Shop::OrderDTO) }
+
+    context "with a custom class_name" do
       let(:attributes) do
         {
-          user_id: 1
+          order_id: 1
         }
       end
-      let(:options) { {} }
 
-      subject { order.to_dto(options) }
+      subject { line_item.to_dto }
 
-      let(:order) { Shop::Order.new(attributes) }
+      let(:line_item) { Shop::LineItem.new(attributes) }
 
-      it { is_expected.to be_a(Shop::OrderDTO) }
+      it { is_expected.to be_a(Core::LineItemDTO) }
     end
   end
 end
