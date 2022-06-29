@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   has_many :orders, class_name: "Shop::Order"
   has_one :person
 
+  enum status: { pending: 0, confirmed: 1 }
+
   has_dto
 
   def full_name
@@ -12,5 +14,9 @@ class User < ActiveRecord::Base
 
   def strange_name
     "Strange #{first_name}"
+  end
+
+  def superman?
+    full_name == "Clark Kent"
   end
 end

@@ -7,7 +7,8 @@ RSpec.describe "#to_dto" do
         first_name: "Sandy",
         last_name: "Doe",
         email: "sandy@example.com",
-        birthday: Time.new(1995, 8, 25)
+        birthday: Time.new(1995, 8, 25),
+        status: "pending"
       }
     end
     let(:options) { {} }
@@ -20,7 +21,9 @@ RSpec.describe "#to_dto" do
       it { is_expected.to be_a(UserDTO) }
 
       it "doesn't expose ActiveRecord's methods" do
-        expect(subject).not_to respond_to(:update)
+        expect(subject).to_not respond_to(:update)
+        expect(subject).to_not respond_to(:pending?)
+        expect(subject).to_not respond_to(:confirmed?)
       end
 
       it "exposes methods to access the columns" do
@@ -46,7 +49,9 @@ RSpec.describe "#to_dto" do
       it { is_expected.to be_a(UserDTO) }
 
       it "doesn't expose ActiveRecord's methods" do
-        expect(subject).not_to respond_to(:update)
+        expect(subject).to_not respond_to(:update)
+        expect(subject).to_not respond_to(:pending?)
+        expect(subject).to_not respond_to(:confirmed?)
       end
 
       it "exposes methods to access the columns" do
@@ -59,6 +64,9 @@ RSpec.describe "#to_dto" do
           created_at: user.created_at,
           updated_at: user.updated_at
         )
+        expect(subject.id).to_not be_nil
+        expect(subject.created_at).to_not be_nil
+        expect(subject.updated_at).to_not be_nil
       end
 
       it "is not possible to set values from outside" do

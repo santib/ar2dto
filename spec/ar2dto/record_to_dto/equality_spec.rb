@@ -7,7 +7,8 @@ RSpec.describe "#to_dto" do
         first_name: "Sandy",
         last_name: "Doe",
         email: "sandy@example.com",
-        birthday: Time.new(1995, 8, 25)
+        birthday: Time.new(1995, 8, 25),
+        status: "pending"
       }
     end
     let(:options) { {} }
@@ -26,13 +27,13 @@ RSpec.describe "#to_dto" do
       it "is not equal to another DTO of another class with same attributes" do
         admin = double("Admin", attributes)
 
-        expect(subject).not_to eq(admin)
+        expect(subject).to_not eq(admin)
       end
 
       it "is not equal to another DTO of the same class with different attributes" do
         other_user = User.new(attributes.merge(first_name: "Kent")).to_dto
 
-        expect(subject).not_to eq(other_user)
+        expect(subject).to_not eq(other_user)
       end
 
       context "when including associations" do
@@ -59,13 +60,13 @@ RSpec.describe "#to_dto" do
       it "is not equal to another DTO of the same class with the same attributes that is persisted" do
         user_with_same_attributes = User.create!(attributes)
 
-        expect(subject).not_to eq(user_with_same_attributes.to_dto)
+        expect(subject).to_not eq(user_with_same_attributes.to_dto)
       end
 
       it "is not equal to another DTO of another class with same attributes" do
         admin = double("Admin", user.attributes)
 
-        expect(subject).not_to eq(admin)
+        expect(subject).to_not eq(admin)
       end
 
       context "when including associations" do

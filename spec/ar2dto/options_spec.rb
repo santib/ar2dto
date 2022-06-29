@@ -22,7 +22,7 @@ RSpec.describe "options" do
           has_dto
         end
 
-        expect(klass.new.to_dto).not_to respond_to(:updated_at)
+        expect(klass.new.to_dto).to_not respond_to(:updated_at)
       end
     end
   end
