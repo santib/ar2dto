@@ -8,6 +8,7 @@ ActiveRecord::Schema.define do
     t.string :last_name
     t.string :email, null: false
     t.datetime :birthday
+    t.integer :status, default: 0
 
     t.timestamps
   end

@@ -7,7 +7,8 @@ RSpec.describe "AR2DTO::ActiveModel" do
     {
       first_name: "Sandy",
       email: "sandy@example.com",
-      birthday: Time.new(1995, 8, 25)
+      birthday: Time.new(1995, 8, 25),
+      status: "pending"
     }
   end
 

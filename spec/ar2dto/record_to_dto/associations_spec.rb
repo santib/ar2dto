@@ -7,7 +7,8 @@ RSpec.describe "#to_dto" do
         first_name: "Sandy",
         last_name: "Doe",
         email: "sandy@example.com",
-        birthday: Time.new(1995, 8, 25)
+        birthday: Time.new(1995, 8, 25),
+        status: "pending"
       }
     end
 

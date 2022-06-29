@@ -18,17 +18,14 @@ module AR2DTO
     end
 
     def initialize(attributes = {})
-      singleton_class.instance_eval { attr_reader(*attributes.keys) }
-
-      attributes.each { |key, value| instance_variable_set("@#{key}", value) }
-
+      attributes.each { |key, value| define_singleton_method(key) { value } }
       super()
     end
 
     def ==(other)
       if other.instance_of?(self.class)
         attribute_names = self.class.original_model.attribute_names
-        as_json(only: attribute_names) == other.as_json(only: attribute_names)
+        attribute_names.all? { |name| send(name) == other.send(name) }
       else
         super
       end

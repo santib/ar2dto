@@ -12,4 +12,6 @@
 
 .ruby-version
 
+.byebug_history
+
 Gemfile.lock
