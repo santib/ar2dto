@@ -25,6 +25,23 @@ RSpec.describe "options" do
         expect(klass.new.to_dto).to_not respond_to(:updated_at)
       end
     end
+
+    context "when it is configured in the model" do
+      it "doesn't expose the attribute" do
+        # create a new anonymous class that uses has_dto with the new config
+        klass = Class.new(ActiveRecord::Base) do
+          self.table_name = :users
+
+          def self.name
+            "Anonymous"
+          end
+
+          has_dto except: :updated_at
+        end
+
+        expect(klass.new.to_dto).to_not respond_to(:updated_at)
+      end
+    end
   end
 
   describe "option class_name" do

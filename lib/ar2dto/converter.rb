@@ -18,7 +18,7 @@ module AR2DTO
     private
 
     def apply_global_configs(options)
-      options[:except] = AR2DTO::Config.instance.except + Array(options[:except])
+      options[:except] = Array(model.class.ar2dto.except) + Array(options[:except])
       options
     end
 
