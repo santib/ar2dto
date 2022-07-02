@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "singleton"
-
 module AR2DTO
   class Config
     include Singleton
@@ -9,15 +7,17 @@ module AR2DTO
     def self.reset!
       instance.active_model_compliance = true
       instance.except = []
-      instance.replace_suffix = { from: "", to: "DTO" }
+      instance.delete_suffix = nil
+      instance.add_suffix = "DTO"
     end
 
-    attr_accessor :except, :replace_suffix, :active_model_compliance
+    attr_accessor :active_model_compliance, :except, :delete_suffix, :add_suffix
 
     def initialize
       @active_model_compliance = true
       @except = []
-      @replace_suffix = { from: "", to: "DTO" }
+      @delete_suffix = nil
+      @add_suffix = "DTO"
     end
   end
 end

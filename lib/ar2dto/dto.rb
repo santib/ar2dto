@@ -2,19 +2,11 @@
 
 module AR2DTO
   class DTO
-    class << self
-      def [](original_model)
-        Class.new(self) do
-          define_singleton_method :original_model do
-            original_model
-          end
-        end
+    def self.[](original_model)
+      Class.new(self) do
+        include ::AR2DTO::ActiveModel if original_model.ar2dto.active_model_compliance
+        define_singleton_method(:original_model) { original_model }
       end
-    end
-
-    def self.inherited(base)
-      base.include ::AR2DTO::ActiveModel if ::AR2DTO::Config.instance.active_model_compliance
-      super
     end
 
     def initialize(attributes = {})

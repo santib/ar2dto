@@ -10,7 +10,7 @@ module AR2DTO
 
       base.class_eval do
         def persisted?
-          !!id
+          id.present?
         end
 
         def errors
