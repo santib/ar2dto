@@ -42,6 +42,35 @@ RSpec.describe "options" do
         expect(klass.new.to_dto).to_not respond_to(:updated_at)
       end
     end
+
+    context "when it is configured everywhere" do
+      before do
+        # configure excluded attributes globally
+        AR2DTO.configure do |config|
+          config.except = [:updated_at]
+        end
+      end
+
+      it "doesn't expose the attribute" do
+        # create a new anonymous class that uses has_dto with the new config
+        klass = Class.new(ActiveRecord::Base) do
+          self.table_name = :users
+
+          def self.name
+            "Anonymous"
+          end
+
+          has_dto except: :created_at
+        end
+
+        dto = klass.new.to_dto(except: :first_name)
+
+        expect(dto).to respond_to(:last_name)
+        expect(dto).to_not respond_to(:updated_at)
+        expect(dto).to_not respond_to(:created_at)
+        expect(dto).to_not respond_to(:first_name)
+      end
+    end
   end
 
   describe "option class_name" do
