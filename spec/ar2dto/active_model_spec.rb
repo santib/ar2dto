@@ -18,6 +18,7 @@ RSpec.describe "AR2DTO::ActiveModel" do
     it_behaves_like "ActiveModel"
 
     it "implements ActiveModel::Translation using the original model" do
+      I18n.reload!
       I18n.backend.store_translations "es", activemodel: {
         attributes: { user: { birthday: "Fecha de nacimiento" } }
       }
@@ -44,6 +45,7 @@ RSpec.describe "AR2DTO::ActiveModel" do
     it_behaves_like "ActiveModel"
 
     it "implements ActiveModel::Translation using the original model" do
+      I18n.reload!
       I18n.backend.store_translations "es", activemodel: {
         attributes: { user: { birthday: "Fecha de nacimiento" } }
       }
