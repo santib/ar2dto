@@ -2,6 +2,7 @@
 
 require "active_record"
 require "active_model"
+require "singleton"
 
 require_relative "ar2dto/active_model"
 require_relative "ar2dto/dto"

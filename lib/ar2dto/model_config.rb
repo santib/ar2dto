@@ -12,6 +12,10 @@ module AR2DTO
       @configs = AR2DTO::Config.instance.as_json.merge(configs.as_json)
     end
 
+    def active_model_compliance
+      @active_model_compliance ||= configs["active_model_compliance"]
+    end
+
     def except
       @except ||= configs["except"]
     end
@@ -31,7 +35,7 @@ module AR2DTO
     private
 
     def model_name_replaced_suffix
-      model.name.sub(/#{configs["replace_suffix"]["from"]}$/, configs["replace_suffix"]["to"].to_s)
+      "#{model.name.delete_suffix(configs["delete_suffix"].to_s)}#{configs["add_suffix"]}"
     end
   end
 end

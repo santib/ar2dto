@@ -56,17 +56,17 @@ RSpec.describe "options" do
     end
   end
 
-  describe "option replace_suffix" do
+  describe "suffix options" do
     before do
-      # configure replace_suffix globally
+      # configure suffix globally
       AR2DTO.configure do |config|
-        config.replace_suffix = replace_suffix
+        config.delete_suffix = delete_suffix
+        config.add_suffix = add_suffix
       end
     end
 
-    let(:replace_suffix) do
-      { from: "Record", to: "Value" }
-    end
+    let(:delete_suffix) { "Record" }
+    let(:add_suffix) { "Value" }
 
     it "uses the class suffix when creating the dynamic class" do
       # create a new anonymous class that uses has_dto with the new config
@@ -84,9 +84,8 @@ RSpec.describe "options" do
     end
 
     context "removing a suffix" do
-      let(:replace_suffix) do
-        { from: "Record", to: "" }
-      end
+      let(:delete_suffix) { "Record" }
+      let(:add_suffix) { "" }
 
       it "uses the class suffix when creating the dynamic class" do
         # create a new anonymous class that uses has_dto with the new config

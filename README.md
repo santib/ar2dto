@@ -61,7 +61,8 @@ These settings are assigned directly on the `AR2DTO.configure` object.
 Configuration options are:
  - `active_model_compliace`: DTO objects behaves like `ActiveModel` objects to play well with other parts of Rails and its ecosystem. Defaults to `true`.
  - `except`: array of attributes to exclude from the DTO. Defaults to `[]`.
- - `replace_suffix`: hash with keys `from` and `to`, where `from` is the suffix to be replaced with the value of `to`. Defaults to `{ from: "", to: "DTO" }`.
+ - `delete_suffix`: suffix to be delete from the model name. Defaults to `nil`.
+ - `add_suffix`: suffix to be added to the model name. Defaults to `"DTO"`.
 
 Syntax examples:
 
@@ -71,7 +72,8 @@ Syntax examples:
   AR2DTO.configure do |config|
     config.active_model_compliance = true
     config.except = [:updated_at]
-    config.replace_suffix = { from: "", to: "DTO" }
+    config.delete_suffix = nil
+    config.add_suffix = "DTO"
   end
 ```
 
@@ -82,7 +84,8 @@ OR
 
   AR2DTO.configure.active_model_compliance = true
   AR2DTO.configure.except = [:updated_at]
-  AR2DTO.configure.replace_suffix = { from: "", to: "DTO" }
+  AR2DTO.configure.delete_suffix = nil
+  AR2DTO.configure.add_suffix = "DTO"
 ```
 
 These options are intended to be set only once, during app initialization.
