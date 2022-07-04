@@ -28,6 +28,10 @@ Metrics/MethodLength:
    - lib/ar2dto/active_model.rb
    - lib/ar2dto/dto.rb
 
+Naming/MemoizedInstanceVariableName:
+  Exclude:
+    - lib/ar2dto/model_config.rb
+
 Naming/PredicateName:
   Exclude:
     - lib/ar2dto/has_dto.rb
