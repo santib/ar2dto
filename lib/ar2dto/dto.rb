@@ -16,7 +16,7 @@ module AR2DTO
 
     def as_json(options = nil)
       attribute_names = self.class.original_model.attribute_names
-      attribute_names.map { |name| [name, send(name)] }.to_h.as_json(options)
+      attribute_names.map { |name| [name.to_sym, send(name)] }.to_h.as_json(options)
     end
 
     def ==(other)
