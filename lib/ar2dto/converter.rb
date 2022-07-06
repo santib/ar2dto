@@ -10,8 +10,8 @@ module AR2DTO
     end
 
     def serializable_hash
-      hash = model.serializable_hash(options&.except(:include)).as_json
-      add_associations(hash)
+      hash = model.serializable_hash(options&.except(:include))
+      add_associations(hash.as_json)
     end
 
     private
