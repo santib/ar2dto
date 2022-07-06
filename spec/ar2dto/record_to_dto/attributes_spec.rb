@@ -61,8 +61,8 @@ RSpec.describe "#to_dto" do
       it "exposes methods to access the columns set by persistence" do
         expect(subject).to have_attributes(
           id: user.id,
-          created_at: user.created_at.as_json,
-          updated_at: user.updated_at.as_json
+          created_at: user.created_at,
+          updated_at: user.updated_at
         )
         expect(subject.id).to_not be_nil
         expect(subject.created_at).to_not be_nil

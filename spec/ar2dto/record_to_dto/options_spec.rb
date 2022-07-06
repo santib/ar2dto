@@ -45,12 +45,21 @@ RSpec.describe "#to_dto" do
 
         context "when including methods that return an ActiveRecord object" do
           let(:options) do
-            { methods: %i[myself] }
+            { methods: %i[myself other] }
           end
 
-          it "gets converted into a hash" do
-            expect(subject.myself).to be_a(Hash)
-            expect(subject.myself["first_name"]).to eq("Sandy")
+          context "if it responds to #to_dto" do
+            it "gets converted into a DTO" do
+              expect(subject.myself).to be_a(UserDTO)
+              expect(subject.myself.first_name).to eq("Sandy")
+            end
+          end
+
+          context "if it doesn't respond to #to_dto" do
+            it "gets converted into a hash" do
+              expect(subject.other).to be_a(Hash)
+              expect(subject.other["text"]).to eq("Strange Sandy")
+            end
           end
         end
       end
@@ -74,7 +83,7 @@ RSpec.describe "#to_dto" do
         it "becomes inaccessible in the DTO" do
           expect(subject).to_not respond_to(:first_name)
           expect(subject.last_name).to eq("Doe")
-          expect(subject.birthday).to eq(Time.new(1995, 8, 25).as_json)
+          expect(subject.birthday).to eq(Time.new(1995, 8, 25))
         end
       end
     end

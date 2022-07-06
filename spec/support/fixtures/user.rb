@@ -23,4 +23,8 @@ class User < ActiveRecord::Base
   def myself
     self
   end
+
+  def other
+    Other.new(text: strange_name)
+  end
 end

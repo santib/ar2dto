@@ -31,12 +31,21 @@ RSpec.describe ".to_dto" do
 
       context "when including methods that return an ActiveRecord object" do
         let(:options) do
-          { methods: %i[myself] }
+          { methods: %i[myself other] }
         end
 
-        it "gets converted into a hash" do
-          expect(subject.first.myself["first_name"]).to eq("Sandy")
-          expect(subject.second.myself["first_name"]).to eq("Kent")
+        context "if it responds to #to_dto" do
+          it "gets converted into a DTO" do
+            expect(subject.first.myself.first_name).to eq("Sandy")
+            expect(subject.second.myself.first_name).to eq("Kent")
+          end
+        end
+
+        context "if it doesn't respond to #to_dto" do
+          it "gets converted into a hash" do
+            expect(subject.first.other["text"]).to eq("Strange Sandy")
+            expect(subject.second.other["text"]).to eq("Strange Kent")
+          end
         end
       end
     end
