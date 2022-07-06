@@ -38,4 +38,12 @@ RSpec.describe AR2DTO::DTO do
 
     it_behaves_like "ActiveModel"
   end
+
+  context "#as_json" do
+    subject { klass.new(user.attributes).as_json }
+
+    it "responds to defined methods" do
+      expect(subject).to eq(user.attributes.as_json)
+    end
+  end
 end
