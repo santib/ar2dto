@@ -49,8 +49,8 @@ RSpec.describe "#to_dto" do
           end
 
           it "becomes accessible in the DTO" do
-            expect(subject.myself).to be_a(UserDTO)
-            expect(subject.myself.first_name).to eq("Sandy")
+            expect(subject.myself).to be_a(Hash)
+            expect(subject.myself["first_name"]).to eq("Sandy")
           end
         end
       end
@@ -74,7 +74,7 @@ RSpec.describe "#to_dto" do
         it "becomes inaccessible in the DTO" do
           expect(subject).to_not respond_to(:first_name)
           expect(subject.last_name).to eq("Doe")
-          expect(subject.birthday).to eq(Time.new(1995, 8, 25))
+          expect(subject.birthday).to eq(Time.new(1995, 8, 25).as_json)
         end
       end
     end
