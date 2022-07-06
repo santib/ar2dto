@@ -27,4 +27,8 @@ class User < ActiveRecord::Base
   def other
     Other.new(text: strange_name)
   end
+
+  def poro
+    SimplePoro.new(created_at: created_at)
+  end
 end

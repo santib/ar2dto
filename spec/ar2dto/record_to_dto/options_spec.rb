@@ -62,6 +62,17 @@ RSpec.describe "#to_dto" do
             end
           end
         end
+
+        context "when including methods that return a PORO" do
+          let(:options) do
+            { methods: %i[poro] }
+          end
+
+          it "gets converted into a hash" do
+            expect(subject.poro).to be_a(Hash)
+            expect(subject.poro["created_at"]).to eq(user.created_at.as_json)
+          end
+        end
       end
 
       context "when excluding attributes via except" do
