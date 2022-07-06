@@ -19,4 +19,16 @@ class User < ActiveRecord::Base
   def superman?
     full_name == "Clark Kent"
   end
+
+  def myself
+    self
+  end
+
+  def other
+    Other.new(text: strange_name)
+  end
+
+  def poro
+    SimplePoro.new(created_at: created_at)
+  end
 end

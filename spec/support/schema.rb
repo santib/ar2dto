@@ -41,4 +41,10 @@ ActiveRecord::Schema.define do
 
     t.timestamps
   end
+
+  create_table :others, force: true do |t|
+    t.text :text
+
+    t.timestamps
+  end
 end

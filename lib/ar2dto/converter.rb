@@ -10,9 +10,9 @@ module AR2DTO
     end
 
     def serializable_hash
-      hash = model.serializable_hash(options&.except(:include))
-
-      hash_with_associations(hash)
+      hash = model.serializable_hash(options&.except(:methods, :include))
+      hash = add_methods(hash)
+      add_associations(hash)
     end
 
     private
@@ -22,7 +22,20 @@ module AR2DTO
       options
     end
 
-    def hash_with_associations(hash)
+    def add_methods(hash)
+      options&.dig(:methods)&.each do |method|
+        result = model.send(method)
+        result = if result.respond_to?(:to_dto)
+                   result.to_dto
+                 else
+                   result.as_json
+                 end
+        hash[method.to_s] = result
+      end
+      hash
+    end
+
+    def add_associations(hash)
       includes.each do |association, opts|
         records = model.send(association)
         hash[association.to_s] = records ? records_dto(records, opts) : nil
