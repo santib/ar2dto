@@ -19,4 +19,8 @@ class User < ActiveRecord::Base
   def superman?
     full_name == "Clark Kent"
   end
+
+  def myself
+    self
+  end
 end

@@ -42,6 +42,17 @@ RSpec.describe "#to_dto" do
             expect(subject.superman?).to eq(false)
           end
         end
+
+        context "when including methods that return an ActiveRecord object" do
+          let(:options) do
+            { methods: %i[myself] }
+          end
+
+          it "becomes accessible in the DTO" do
+            expect(subject.myself).to be_a(UserDTO)
+            expect(subject.myself.first_name).to eq("Sandy")
+          end
+        end
       end
 
       context "when excluding attributes via except" do
