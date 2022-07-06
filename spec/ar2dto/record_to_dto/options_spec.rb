@@ -48,7 +48,7 @@ RSpec.describe "#to_dto" do
             { methods: %i[myself] }
           end
 
-          it "becomes accessible in the DTO" do
+          it "gets converted into a hash" do
             expect(subject.myself).to be_a(Hash)
             expect(subject.myself["first_name"]).to eq("Sandy")
           end

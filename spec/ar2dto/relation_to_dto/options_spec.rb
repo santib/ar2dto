@@ -28,6 +28,17 @@ RSpec.describe ".to_dto" do
         expect(subject.first.full_name).to eq("Sandy Doe")
         expect(subject.second.full_name).to eq("Kent Simpson")
       end
+
+      context "when including methods that return an ActiveRecord object" do
+        let(:options) do
+          { methods: %i[myself] }
+        end
+
+        it "gets converted into a hash" do
+          expect(subject.first.myself["first_name"]).to eq("Sandy")
+          expect(subject.second.myself["first_name"]).to eq("Kent")
+        end
+      end
     end
 
     context "when excluding attributes via except" do
