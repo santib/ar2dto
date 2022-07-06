@@ -38,4 +38,22 @@ RSpec.describe AR2DTO::DTO do
 
     it_behaves_like "ActiveModel"
   end
+
+  context "#as_json" do
+    subject { klass.new(user.attributes).as_json(options) }
+
+    let(:options) { nil }
+
+    it "responds to defined methods" do
+      expect(subject).to eq(user.attributes.as_json)
+    end
+
+    context "with options" do
+      let(:options) { { except: :first_name } }
+
+      it "affects the result" do
+        expect(subject).to eq(user.attributes.as_json.except("first_name"))
+      end
+    end
+  end
 end

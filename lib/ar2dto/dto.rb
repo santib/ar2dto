@@ -14,10 +14,14 @@ module AR2DTO
       super()
     end
 
+    def as_json(options = nil)
+      attribute_names = self.class.original_model.attribute_names
+      attribute_names.map { |name| [name.to_sym, send(name)] }.to_h.as_json(options)
+    end
+
     def ==(other)
       if other.instance_of?(self.class)
-        attribute_names = self.class.original_model.attribute_names
-        attribute_names.all? { |name| send(name) == other.send(name) }
+        as_json == other.as_json
       else
         super
       end
