@@ -65,6 +65,19 @@ RSpec.describe ".to_dto" do
           expect(subject.second.poro["created_at"]).to eq(another_user.created_at.as_json)
         end
       end
+
+      context "when including methods that return a DTO" do
+        let(:options) do
+          { methods: %i[dto] }
+        end
+
+        it "stays as a DTO" do
+          expect(subject.first.dto).to be_a(UserDTO)
+          expect(subject.first.dto.created_at.to_i).to eq(user.created_at.to_i)
+          expect(subject.second.dto).to be_a(UserDTO)
+          expect(subject.second.dto.created_at.to_i).to eq(another_user.created_at.to_i)
+        end
+      end
     end
 
     context "when excluding attributes via except" do

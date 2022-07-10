@@ -24,15 +24,19 @@ module AR2DTO
 
     def add_methods(hash)
       options&.dig(:methods)&.each do |method|
-        result = model.send(method)
-        result = if result.respond_to?(:to_dto)
-                   result.to_dto
-                 else
-                   result.as_json
-                 end
-        hash[method.to_s] = result
+        hash[method.to_s] = data_only(model.send(method))
       end
       hash
+    end
+
+    def data_only(object)
+      if object.respond_to?(:to_dto)
+        object.to_dto
+      elsif object.is_a?(::AR2DTO::DTO)
+        object
+      else
+        object.as_json
+      end
     end
 
     def add_associations(hash)

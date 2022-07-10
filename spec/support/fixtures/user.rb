@@ -31,4 +31,8 @@ class User < ActiveRecord::Base
   def poro
     SimplePoro.new(created_at: created_at)
   end
+
+  def dto
+    to_dto
+  end
 end
