@@ -2,6 +2,8 @@
 
 module AR2DTO
   class Converter
+    ALLOWED_TYPES = [Symbol, BigDecimal, Regexp, IO, Range, Time, Date, DateTime,
+                     URI::Generic, Pathname, IPAddr, Process::Status, Exception].freeze
     attr_reader :model, :options
 
     def initialize(model, options)
@@ -32,7 +34,7 @@ module AR2DTO
     def data_only(object)
       if object.respond_to?(:to_dto)
         object.to_dto
-      elsif object.is_a?(::AR2DTO::DTO)
+      elsif object.is_a?(::AR2DTO::DTO) || ALLOWED_TYPES.include?(object.class)
         object
       else
         object.as_json

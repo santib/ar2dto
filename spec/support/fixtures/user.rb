@@ -35,4 +35,8 @@ class User < ActiveRecord::Base
   def dto
     to_dto
   end
+
+  def last_laughed_at
+    Time.new(2020, 2, 2)
+  end
 end

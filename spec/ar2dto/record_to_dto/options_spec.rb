@@ -84,6 +84,18 @@ RSpec.describe "#to_dto" do
             expect(subject.dto.created_at.to_i).to eq(user.created_at.to_i)
           end
         end
+
+        context "when including methods that return a Time" do
+          let(:options) do
+            { methods: %i[last_laughed_at] }
+          end
+
+          it "stays as a Time" do
+            expect(subject).to be_a(UserDTO)
+            expect(subject.last_laughed_at).to be_a(Time)
+            expect(subject.last_laughed_at).to eq(user.last_laughed_at)
+          end
+        end
       end
 
       context "when excluding attributes via except" do
