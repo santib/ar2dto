@@ -57,7 +57,7 @@ RSpec.describe "options" do
           self.table_name = :users
 
           def self.name
-            "Anonymous"
+            "AnotherAnonymous"
           end
 
           has_dto except: :created_at
@@ -68,7 +68,7 @@ RSpec.describe "options" do
         expect(dto).to respond_to(:last_name)
         expect(dto).to_not respond_to(:updated_at)
         expect(dto).to_not respond_to(:created_at)
-        expect(dto).to_not respond_to(:first_name)
+        expect(dto.first_name).to be_nil
       end
     end
   end

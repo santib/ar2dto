@@ -17,7 +17,7 @@ module AR2DTO
     end
 
     def except
-      @except ||= Array(global_config.except) | Array(model_config[:except])
+      @except ||= Array(global_config.except).map(&:to_s) | Array(model_config[:except]).map(&:to_s)
     end
 
     def class_name

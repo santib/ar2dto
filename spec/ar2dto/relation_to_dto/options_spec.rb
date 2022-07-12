@@ -72,10 +72,10 @@ RSpec.describe ".to_dto" do
         { except: [:first_name] }
       end
 
-      it "becomes inaccessible in the DTOs" do
-        expect(subject.first).to_not respond_to(:first_name)
+      it "becomes nil in the DTOs" do
+        expect(subject.first.first_name).to be_nil
         expect(subject.first.last_name).to eq("Doe")
-        expect(subject.second).to_not respond_to(:first_name)
+        expect(subject.second.first_name).to be_nil
         expect(subject.second.last_name).to eq("Simpson")
       end
     end
@@ -85,10 +85,10 @@ RSpec.describe ".to_dto" do
         { only: [:last_name] }
       end
 
-      it "becomes inaccessible in the DTOs" do
-        expect(subject.first).to_not respond_to(:first_name)
+      it "becomes nil in the DTOs" do
+        expect(subject.first.first_name).to be_nil
         expect(subject.first.last_name).to eq("Doe")
-        expect(subject.second).to_not respond_to(:first_name)
+        expect(subject.second.first_name).to be_nil
         expect(subject.second.last_name).to eq("Simpson")
       end
     end

@@ -80,8 +80,8 @@ RSpec.describe "#to_dto" do
           { except: [:first_name] }
         end
 
-        it "becomes inaccessible in the DTO" do
-          expect(subject).to_not respond_to(:first_name)
+        it "becomes nil in the DTO" do
+          expect(subject.first_name).to be_nil
           expect(subject.last_name).to eq("Doe")
         end
       end
@@ -91,8 +91,8 @@ RSpec.describe "#to_dto" do
           { only: %i[last_name birthday] }
         end
 
-        it "becomes inaccessible in the DTO" do
-          expect(subject).to_not respond_to(:first_name)
+        it "becomes nil in the DTO" do
+          expect(subject.first_name).to be_nil
           expect(subject.last_name).to eq("Doe")
           expect(subject.birthday).to eq(Time.new(1995, 8, 25))
         end
@@ -142,8 +142,8 @@ RSpec.describe "#to_dto" do
           { except: [:first_name] }
         end
 
-        it "becomes inaccessible in the DTO" do
-          expect(subject).to_not respond_to(:first_name)
+        it "becomes nil in the DTO" do
+          expect(subject.first_name).to be_nil
           expect(subject.last_name).to eq("Kent")
         end
       end
@@ -153,8 +153,8 @@ RSpec.describe "#to_dto" do
           { only: [:last_name] }
         end
 
-        it "becomes inaccessible in the DTO" do
-          expect(subject).to_not respond_to(:first_name)
+        it "becomes nil in the DTO" do
+          expect(subject.first_name).to be_nil
           expect(subject.last_name).to eq("Kent")
         end
       end
