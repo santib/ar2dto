@@ -9,14 +9,14 @@ module AR2DTO
       end
     end
 
-    def initialize(attributes = {})
-      attributes.each { |key, value| define_singleton_method(key) { value } }
+    def initialize(data = {})
+      @data = data.symbolize_keys
       super()
     end
 
     def as_json(options = nil)
-      attribute_names = self.class.original_model.attribute_names
-      attribute_names.map { |name| [name.to_sym, send(name)] }.to_h.as_json(options)
+      attribute_names = self.class.original_model.attribute_names.map(&:to_sym)
+      @data.slice(*attribute_names).as_json(options)
     end
 
     def ==(other)
@@ -25,6 +25,16 @@ module AR2DTO
       else
         super
       end
+    end
+
+    def respond_to_missing?(name, include_private = false)
+      @data.key?(name) || super
+    end
+
+    def method_missing(method, *args, &block)
+      return @data[method] if @data.key?(method)
+
+      super
     end
   end
 end
