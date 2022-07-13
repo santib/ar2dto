@@ -19,6 +19,7 @@ Metrics/AbcSize:
 
 Metrics/BlockLength:
   Exclude:
+    - benchmarks/**/*
     - lib/ar2dto/dto.rb
     - spec/**/*
 
