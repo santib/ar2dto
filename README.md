@@ -15,6 +15,7 @@ AR2DTO (ActiveRecord to DTO, pronounced R2-D2 or Artoo-Detoo) is a gem that lets
   - [DTO class](#dto-class)
   - [#to_dto](#to_dto)
   - [.to_dto](#to_dto-1)
+- [Examples](#examples)
 - [Development](#development)
 - [Contributing](#contributing)
 - [License](#license)
@@ -158,6 +159,16 @@ will return an `Array` consisting of 10 `UserDTO`. With this you are forcing the
 It accepts the same options as `#to_dto` and uses them create each DTO.
 
 :warning: **Warning!** Given that this method executes the query and brings records into memory, you have to be careful when and how to use it. You may not want to bring all records from a large table into memory. Consider combining it with things such as pagination or batch processing.
+
+## Examples
+If you want to look into examples of usages and configurations, you can find:
+- [Option `methods` examples](docs/examples/methods.md)
+- [Option `except` examples](docs/examples/except.md)
+- [Option `only` examples](docs/examples/only.md)
+- [Option `include` examples](docs/examples/include.md)
+- [Option `add_suffix` and `delete_suffix` examples](docs/examples/add_suffix_delete_suffix.md)
+- [Option `active_model_compliance` examples](docs/examples/active_model_compliance.md)
+- [Custom DTO examples](docs/examples/custom_dto.md)
 
 ## Development
 
