@@ -65,15 +65,15 @@ Benchmark.ips do |x|
 end
 
 # Warming up --------------------------------------
-#         ActiveRecord     3.080k i/100ms
-#                 PORO     3.530k i/100ms
-#          AR2DTO::DTO     2.609k i/100ms
+#         ActiveRecord     2.624k i/100ms
+#                 PORO    11.529k i/100ms
+#          AR2DTO::DTO     4.354k i/100ms
 # Calculating -------------------------------------
-#         ActiveRecord     21.663k (±36.7%) i/s -     92.400k in   5.053719s
-#                 PORO    147.507k (± 7.7%) i/s -    734.240k in   5.009485s
-#          AR2DTO::DTO     77.631k (±37.6%) i/s -    268.727k in   5.004677s
+#         ActiveRecord     28.360k (±11.1%) i/s -    141.696k in   5.079591s
+#                 PORO    102.249k (±27.2%) i/s -    461.160k in   5.057095s
+#          AR2DTO::DTO     44.231k (±30.4%) i/s -    187.222k in   5.051086s
 #
 # Comparison:
-#                 PORO:   147506.6 i/s
-#          AR2DTO::DTO:    77631.2 i/s - 1.90x  (± 0.00) slower
-#         ActiveRecord:    21662.9 i/s - 6.81x  (± 0.00) slower
+#                 PORO:   102249.5 i/s
+#          AR2DTO::DTO:    44230.9 i/s - 2.31x  (± 0.00) slower
+#         ActiveRecord:    28360.0 i/s - 3.61x  (± 0.00) slower
