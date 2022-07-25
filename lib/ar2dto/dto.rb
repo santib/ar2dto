@@ -6,7 +6,6 @@ module AR2DTO
       Class.new(self) do
         include ::AR2DTO::ActiveModel if original_model.ar2dto.active_model_compliance
         define_singleton_method(:original_model) { original_model }
-        attr_reader(*original_model.attribute_names)
       end
     end
 
@@ -16,6 +15,7 @@ module AR2DTO
       data.each do |key, value|
         if attribute_names.include?(key)
           instance_variable_set("@#{key}", value)
+          singleton_class.attr_reader(key)
         else
           define_singleton_method(key) { value }
         end

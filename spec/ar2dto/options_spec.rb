@@ -2,16 +2,6 @@
 
 RSpec.describe "options" do
   describe "option except" do
-    let(:attributes) do
-      {
-        first_name: "Sandy",
-        last_name: "Doe",
-        email: "sandy@example.com",
-        birthday: Time.new(1995, 8, 25),
-        status: "pending"
-      }
-    end
-
     context "when it is configured globally" do
       before do
         # configure excluded attributes globally
@@ -20,7 +10,7 @@ RSpec.describe "options" do
         end
       end
 
-      it "makes the attribute be nil" do
+      it "doesn't expose the attribute" do
         # create a new anonymous class that uses has_dto with the new config
         klass = Class.new(ActiveRecord::Base) do
           self.table_name = :users
@@ -32,12 +22,12 @@ RSpec.describe "options" do
           has_dto
         end
 
-        expect(klass.new(attributes).to_dto.updated_at).to be_nil
+        expect(klass.new.to_dto).to_not respond_to(:updated_at)
       end
     end
 
     context "when it is configured in the model" do
-      it "makes the attribute be nil" do
+      it "doesn't expose the attribute" do
         # create a new anonymous class that uses has_dto with the new config
         klass = Class.new(ActiveRecord::Base) do
           self.table_name = :users
@@ -49,7 +39,7 @@ RSpec.describe "options" do
           has_dto except: :updated_at
         end
 
-        expect(klass.new(attributes).to_dto.updated_at).to be_nil
+        expect(klass.new.to_dto).to_not respond_to(:updated_at)
       end
     end
 
@@ -61,7 +51,7 @@ RSpec.describe "options" do
         end
       end
 
-      it "makes the attribute be nil" do
+      it "doesn't expose the attribute" do
         # create a new anonymous class that uses has_dto with the new config
         klass = Class.new(ActiveRecord::Base) do
           self.table_name = :users
@@ -73,12 +63,12 @@ RSpec.describe "options" do
           has_dto except: :created_at
         end
 
-        dto = klass.new(attributes).to_dto(except: :first_name)
+        dto = klass.new.to_dto(except: :first_name)
 
-        expect(dto.last_name).to eq("Doe")
-        expect(dto.updated_at).to be_nil
-        expect(dto.created_at).to be_nil
-        expect(dto.first_name).to be_nil
+        expect(dto).to respond_to(:last_name)
+        expect(dto).to_not respond_to(:updated_at)
+        expect(dto).to_not respond_to(:created_at)
+        expect(dto).to_not respond_to(:first_name)
       end
     end
   end
