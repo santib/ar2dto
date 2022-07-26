@@ -32,6 +32,10 @@ RSpec.describe AR2DTO::DTO do
       expect(subject).to_not eq(klass.new(user.attributes.merge("first_name" => "Other")))
     end
 
+    it "is an instance variable" do
+      expect(subject.instance_variable_get("@first_name")).to eq("Sandy")
+    end
+
     it "does not respond to other methods" do
       expect(subject).to_not respond_to(:undefined_method)
     end
