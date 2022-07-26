@@ -9,14 +9,19 @@ module AR2DTO
       end
     end
 
-    def initialize(attributes = {})
-      attributes.each { |key, value| define_singleton_method(key) { value } }
-      super()
-    end
-
-    def as_json(options = nil)
+    def initialize(data = {})
       attribute_names = self.class.original_model.attribute_names
-      attribute_names.map { |name| [name.to_sym, send(name)] }.to_h.as_json(options)
+
+      data.each do |key, value|
+        if attribute_names.include?(key)
+          instance_variable_set("@#{key}", value)
+          singleton_class.attr_reader(key)
+        else
+          define_singleton_method(key) { value }
+        end
+      end
+
+      super()
     end
 
     def ==(other)
