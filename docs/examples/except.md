@@ -13,31 +13,10 @@ user = User.create!(
   status: 'pending',
   two_factor_enabled: true
 )
-# =>
-# #<User:0x000000010c47b4b0
-#  id: 10,
-#  email: "luke@example.com",
-#  first_name: "Luke",
-#  last_name: "Skywalker",
-#  status: "pending",
-#  two_factor_enabled: true,
-#  created_at: Tue, 19 Jul 2022 20:52:06.326792000 UTC +00:00,
-#  updated_at: Tue, 19 Jul 2022 20:52:06.326792000 UTC +00:00>
-
-user_dto = user.to_dto
-# => #<UserDTO:0x000000010d6dd2e8>
-
-user_dto2 = user.to_dto(except: [:updated_at, :two_factor_enabled])
-# => #<UserDTO:0x000000011501c528>
+# => #<User:0x000000010c47b4b0 id: 10, email: "luke@example.com", first_name: "Luke", last_name: "Skywalker", status: "pending", two_factor_enabled: true, created_at: Tue, 19 Jul 2022 20:52:06.326792000 UTC +00:00, updated_at: Tue, 19 Jul 2022 20:52:06.326792000 UTC +00:00>
 
 user.methods.count
 # => 549
-
-user_dto.methods.count
-# => 104
-
-user_dto2.methods.count
-# => 102
 
 user.created_at
 # => Tue, 19 Jul 2022 20:52:06.326792000 UTC +00:00
@@ -48,7 +27,12 @@ user.updated_at
 user.two_factor_enabled
 # => true
 
-# DEFAULT BEHAVIOR
+user_dto = user.to_dto
+# => #<UserDTO:0x000000010d6dd2e8 @created_at=Tue, 19 Jul 2022 20:52:06.326792000 UTC +00:00, @email="luke@example.com", @first_name="Luke", @id=10, @last_name="Skywalker", @status="pending", @two_factor_enabled=true, @updated_at=Tue, 19 Jul 2022 20:52:06.326792000 UTC +00:00>
+
+user_dto.methods.count
+# => 104
+
 user_dto.created_at
 # => Tue, 19 Jul 2022 20:52:06.326792000 UTC +00:00
 
@@ -58,7 +42,12 @@ user_dto.updated_at
 user_dto.two_factor_enabled
 # => true
 
-# WHEN PASSING `except` OPTION TO `#to_dto`
+user_dto2 = user.to_dto(except: [:updated_at, :two_factor_enabled])
+# => #<UserDTO:0x000000011501c528 @created_at=Tue, 19 Jul 2022 20:52:06.326792000 UTC +00:00, @email="luke@example.com", @first_name="Luke", @id=10, @last_name="Skywalker", @status="pending">
+
+user_dto2.methods.count
+# => 102
+
 user_dto2.created_at
 # => Tue, 19 Jul 2022 20:52:06.326792000 UTC +00:00
 
@@ -81,7 +70,7 @@ AR2DTO.configure do |config|
 end
 
 user_dto3 = user.to_dto
-# => #<UserDTO:0x00000001102acd38>
+# => #<UserDTO:0x00000001102acd38 @created_at=Tue, 19 Jul 2022 20:52:06.326792000 UTC +00:00, @email="luke@example.com", @first_name="Luke", @id=10, @last_name="Skywalker", @status="pending">
 
 user_dto3.methods.count
 # => 102

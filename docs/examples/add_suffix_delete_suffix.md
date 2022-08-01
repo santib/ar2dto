@@ -11,7 +11,7 @@ user = User.create!(
 )
 
 user_dto = user.to_dto
-# => #<UserDTO:0x000000010d6dd2e8>
+# => #<UserDTO:0x000000010d6dd2e8 @created_at=Mon, 01 Aug 2022 02:23:08.698812000 UTC +00:00, @email="luke@example.com", @first_name="Luke", @id=1, @last_name="Skywalker", @updated_at=Mon, 01 Aug 2022 02:23:08.698812000 UTC +00:00>
 ```
 
 ## With custom configuration to delete suffix:
@@ -31,7 +31,7 @@ person = PersonRecord.create!(
 )
 
 person_dto = person.to_dto
-# => #<PersonDTO:0x000000011501c528>
+# => #<PersonDTO:0x000000011501c528 @created_at=Mon, 01 Aug 2022 02:23:08.698812000 UTC +00:00, @first_name="John", @id=1, @last_name="Doe", @updated_at=Mon, 01 Aug 2022 02:23:08.698812000 UTC +00:00>
 ```
 
 
@@ -48,10 +48,10 @@ AR2DTO.configure do |config|
 end
 
 person = PersonRecord.create!(
-  first_name: 'John',
-  last_name: 'Doe'
+  first_name: 'Mary',
+  last_name: 'Smith'
 )
 
-person_dto = person.to_dto
-# => #<Person:0x000000011501c528>
+person_dto2 = person.to_dto
+# => #<Person:0x00000001102acd38 @created_at=Mon, 01 Aug 2022 02:23:08.698812000 UTC +00:00, @first_name="Mary", @id=2, @last_name="Smith", @updated_at=Mon, 01 Aug 2022 02:23:08.698812000 UTC +00:00>
 ```
