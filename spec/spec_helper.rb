@@ -11,6 +11,7 @@ require "ar2dto"
 require "support/active_model"
 require "support/schema"
 require "zeitwerk"
+require "#{File.dirname(__FILE__)}/support/database_cleaner_monkeypatch.rb"
 loader = Zeitwerk::Loader.new
 loader.inflector.inflect "person_dto" => "PersonDTO"
 loader.push_dir("spec/support/fixtures")
