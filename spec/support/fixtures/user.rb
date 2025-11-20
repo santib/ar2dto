@@ -4,7 +4,11 @@ class User < ActiveRecord::Base
   has_many :orders, class_name: "Shop::Order"
   has_one :person
 
-  enum status: { pending: 0, confirmed: 1 }
+  if ActiveRecord::VERSION::MAJOR >= 8
+    enum :status, { pending: 0, confirmed: 1 }
+  else
+    enum status: { pending: 0, confirmed: 1 }
+  end
 
   has_dto
 
