@@ -29,6 +29,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 13.0.1"
   spec.add_development_dependency "rspec", "~> 3.9.0"
   spec.add_development_dependency "rubocop", "~> 1.28.2"
-  spec.add_development_dependency "sqlite3", "~> 1.4.2"
+  spec.add_development_dependency "sqlite3"
   spec.add_development_dependency "zeitwerk", "~> 2.6.0"
 end
