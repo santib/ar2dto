@@ -2,8 +2,11 @@
 
 module AR2DTO
   class Converter
-    ALLOWED_TYPES = [Symbol, BigDecimal, Regexp, IO, Range, Time, Date, DateTime,
-                     URI::Generic, Pathname, IPAddr, Process::Status, Exception].freeze
+    ALLOWED_TYPES = [
+      Symbol, BigDecimal, Regexp, IO, Range, Time, Date, DateTime,
+      URI::Generic, Pathname, IPAddr, Process::Status, Exception,
+      ActiveSupport::TimeWithZone
+    ].freeze
     attr_reader :model, :options
 
     def initialize(model, options)
